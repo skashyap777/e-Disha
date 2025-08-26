@@ -1,0 +1,87 @@
+name: edisha
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+# Dependencies specify other packages that your package needs in order to work.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI Icons
+  cupertino_icons: ^1.0.8
+  
+  # Charts and Graphics
+  fl_chart: ^0.68.0
+  
+  # State Management
+  provider: ^6.1.2
+  
+  # Local Storage and Preferences
+  shared_preferences: ^2.2.3
+  
+  # OTP and SMS
+  firebase_auth: ^4.15.3
+  pin_code_fields: ^8.0.1
+  
+  # Firebase Services
+  firebase_core: ^2.24.2
+  firebase_crashlytics: ^3.4.9
+
+  # Environment Variables
+  flutter_dotenv: ^5.1.0
+  flutter_animate: ^4.5.2
+  
+  # Maps and Location (commented out until properly configured)
+  # google_maps_flutter: ^2.5.3
+  # geolocator: ^10.1.0
+  # geocoding: ^2.1.1
+  
+  # Additional useful packages for your app
+  # http: ^1.1.0  # For API calls (uncomment if needed)
+  # intl: ^0.19.0  # For internationalization (uncomment if needed)
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^4.0.0
+
+# The following section is specific to Flutter packages.
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    # - assets/images/ # You can comment out the directory for now.
+    - lib/assets/images/logo.png
+    - .env
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font.
+    # Example of another font family
+    # - family: Poppins
+    #   fonts:
+    #     - asset: fonts/Poppins-Regular.ttf
+    #     - asset: fonts/Poppins-Medium.ttf
+    #       weight: 500
+    #     - asset: fonts/Poppins-SemiBold.ttf
+    #       weight: 600
+    #     - asset: fonts/Poppins-Bold.ttf
+    #       weight: 700
