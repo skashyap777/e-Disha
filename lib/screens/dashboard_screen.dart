@@ -10,6 +10,56 @@ import 'package:provider/provider.dart';
 import 'package:edisha/providers/theme_provider.dart';
 import 'package:edisha/screens/alert_page.dart';
 import 'package:edisha/theme/app_colors.dart';
+import 'package:flutter/foundation.dart';
+
+enum LoadingState { idle, loading, success, error }
+
+class DashboardProvider extends ChangeNotifier {
+  LoadingState _loadingState = LoadingState.idle;
+  Map<String, dynamic> _dashboardData = {};
+  String? _error;
+  DateTime? _lastUpdated;
+
+  LoadingState get loadingState => _loadingState;
+  Map<String, dynamic> get dashboardData => _dashboardData;
+  String? get error => _error;
+  DateTime? get lastUpdated => _lastUpdated;
+
+  bool get isLoading => _loadingState == LoadingState.loading;
+  bool get hasError => _loadingState == LoadingState.error;
+  bool get hasData => _dashboardData.isNotEmpty;
+
+  Future<void> fetchDashboardData() async {
+    _loadingState = LoadingState.loading;
+    _error = null;
+    notifyListeners();
+
+    try {
+      // TODO: Replace with actual API call
+      await Future.delayed(const Duration(seconds: 1));
+
+      _dashboardData = {
+        'vehicles': {'total': 15, 'active': 12, 'inactive': 3},
+        'emergency': {'genuine': 60, 'fake': 25, 'total': 85},
+        // ... rest of data
+      };
+
+      _lastUpdated = DateTime.now();
+      _loadingState = LoadingState.success;
+    } catch (e) {
+      _error = e.toString();
+      _loadingState = LoadingState.error;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  void clearError() {
+    _error = null;
+    _loadingState = LoadingState.idle;
+    notifyListeners();
+  }
+}
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);

@@ -4,14 +4,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:edisha/providers/theme_provider.dart';
 import 'package:edisha/services/settings_service.dart';
-import 'package:edisha/theme/app_colors.dart';
 import 'package:edisha/theme/theme.dart';
 import 'package:edisha/screens/splash_screen.dart';
 import 'package:edisha/screens/login_page.dart';
 import 'package:edisha/screens/dashboard_screen.dart';
 import 'package:edisha/screens/terms_and_conditions_screen.dart';
 import 'package:edisha/screens/map_screen.dart';
-import 'package:edisha/screens/placeholder_screen.dart';
 import 'package:edisha/screens/alert_page.dart'; // Import for AlertPage
 
 void main() async {

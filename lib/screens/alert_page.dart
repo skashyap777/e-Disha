@@ -96,7 +96,7 @@ class AlertPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0, // Cleaner look with no elevation
         backgroundColor: colorScheme.primary, // Use theme primary color
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       ),
       body: ListView.separated(
