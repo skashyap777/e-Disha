@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:edisha/theme/theme.dart';
-import 'package:edisha/screens/login_page.dart';
+import 'package:edisha/screens/login_screen.dart';
+import 'package:edisha/screens/dashboard_screen.dart';
+import 'package:edisha/services/auth_api_service.dart';
 
 /// Splash screen with animated logo and app initialization.
 ///
@@ -103,14 +105,24 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(milliseconds: 1200));
     _pulseController.repeat(reverse: true);
 
-    // Navigate to login after delay
-    await Future.delayed(const Duration(milliseconds: 3000));
+    // Check authentication status
+    await Future.delayed(const Duration(milliseconds: 2000));
+    
     if (mounted) {
+      final authService = AuthApiService();
+      final isAuthenticated = await authService.isAuthenticated();
+      
+      print('🔍 SPLASH: isAuthenticated = $isAuthenticated');
+      
+      // Navigate based on authentication status
+      final targetScreen = isAuthenticated 
+          ? const DashboardScreen() 
+          : const LoginScreen();
+      
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const LoginPage(),
+          pageBuilder: (context, animation, secondaryAnimation) => targetScreen,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
@@ -170,7 +182,7 @@ class _SplashScreenState extends State<SplashScreen>
                                 ],
                               ),
                               child: Image.asset(
-                                'lib/assets/images/logo.png',
+                                'assets/images/logo.png',
                                 fit: BoxFit.contain,
                               ),
                             ),

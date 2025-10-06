@@ -138,12 +138,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                  gradient:
-                      Theme.of(context).extension<AppColors>()!.primaryGradient,
+                  gradient: LinearGradient(
+                    colors: Theme.of(context).extension<AppColors>()!.primaryGradient,
+                  ),
                   borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-                  boxShadow: AppTheme.getShadow(Theme.of(context)
-                      .extension<AppColors>()!
-                      .shadow['default']!),
+                  boxShadow: Theme.of(context).extension<AppColors>()!.shadow,
                 ),
                 child: const Icon(
                   Icons.map,
@@ -199,13 +198,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(AppTheme.radius16),
-                boxShadow: AppTheme.getShadow(Theme.of(context)
-                    .extension<AppColors>()!
-                    .shadow['default']!),
+                boxShadow: Theme.of(context).extension<AppColors>()!.shadow,
                 border: Border.all(
                   color: Theme.of(context)
                       .extension<AppColors>()!
-                      .border['default']!,
+                      .border,
                 ),
               ),
               child: Row(
@@ -276,12 +273,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   border: Border.all(
                     color: Theme.of(context)
                         .extension<AppColors>()!
-                        .border['default']!,
+                        .border,
                     width: 1,
                   ),
-                  boxShadow: AppTheme.getShadow(Theme.of(context)
-                      .extension<AppColors>()!
-                      .shadow['default']!),
+                  boxShadow: Theme.of(context).extension<AppColors>()!.shadow,
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(AppTheme.radius20),
@@ -293,7 +288,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                           painter: MapPatternPainter(
                             color: Theme.of(context)
                                 .extension<AppColors>()!
-                                .border['default']!,
+                                .border,
                           ),
                         ),
                       ),
@@ -377,7 +372,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                 elevation: 0,
                                 shadowColor: Theme.of(context)
                                     .extension<AppColors>()!
-                                    .shadow['default'],
+                                    .shadow[0].color,
                               ),
                             ),
                           ],
@@ -414,7 +409,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         elevation: 0,
                         shadowColor: Theme.of(context)
                             .extension<AppColors>()!
-                            .shadow['default'],
+                            .shadow[0].color,
                       ),
                     ),
                   ),
@@ -440,7 +435,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         elevation: 0,
                         shadowColor: Theme.of(context)
                             .extension<AppColors>()!
-                            .shadow['default'],
+                            .shadow[0].color,
                       ),
                     ),
                   ),

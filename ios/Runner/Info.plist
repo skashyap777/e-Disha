@@ -50,5 +50,22 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<!-- Google Maps API Key -->
+	<key>GMSApiKey</key>
+	<string>AIzaSyArK0Jp0r-r9SEBo6pcHvAO-SwmDLuXPMI</string>
+	<!-- Location permissions -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to show your position on the map and track vehicles nearby.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to show your position on the map and track vehicles nearby.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to your location to show your position on the map and track vehicles nearby.</string>
+	<!-- Camera and Photo Library permissions -->
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to your camera to take driver photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to select driver photos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs to save photos to your library.</string>
 </dict>
 </plist>

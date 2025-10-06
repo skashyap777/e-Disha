@@ -1,6 +1,6 @@
 import 'package:edisha/services/settings_service.dart';
 import 'package:flutter/material.dart';
-import 'package:edisha/screens/login_page.dart';
+import 'package:edisha/screens/login_screen.dart';
 
 // Terms and Conditions Screen with direct content display
 // Shows the terms and conditions content directly in the app
@@ -66,7 +66,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen>
     await _settingsService.setAcceptedTerms(true);
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const LoginPage()),
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
     );
   }
 
@@ -135,7 +135,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen>
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Image.asset(
-                'lib/assets/images/logo.png',
+                'assets/images/logo.png',
                 height: 50,
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) => const Icon(

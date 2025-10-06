@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:edisha/theme/theme.dart';
 import 'package:edisha/screens/dashboard_screen.dart';
+import 'package:edisha/services/auth_api_service.dart';
 import 'package:edisha/theme/app_colors.dart';
+import 'package:edisha/utils/error_handler.dart';
 
 /// Screen for OTP verification after login.
 ///
-/// TODO: Integrate real OTP send/verify API in _sendOTP and _verifyOTP methods.
+/// Uses real OTP API for sending and verifying OTPs.
 class OTPVerificationScreen extends StatefulWidget {
   final String phoneNumber;
 
@@ -22,13 +23,15 @@ class OTPVerificationScreen extends StatefulWidget {
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen>
     with TickerProviderStateMixin {
-  final TextEditingController _otpController = TextEditingController();
+  TextEditingController? _otpController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final AuthApiService _authApiService = AuthApiService();
 
   bool _isLoading = false;
   bool _isResending = false;
+  bool _isDisposed = false; // Add flag to track disposal
   int _resendTimer = 30;
-  late Timer _timer;
+  Timer? _timer;
   late AnimationController _animationController;
   late AnimationController _pulseController;
   late Animation<double> _fadeAnimation;
@@ -38,6 +41,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
   @override
   void initState() {
     super.initState();
+    _otpController = TextEditingController();
     _startResendTimer();
     _initializeAnimations();
     _sendOTP(); // Auto-send OTP when screen loads
@@ -84,11 +88,19 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
   }
 
   void _startResendTimer() {
+    _timer?.cancel(); // Cancel any existing timer
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted || _isDisposed) {
+        timer.cancel();
+        return;
+      }
+      
       if (_resendTimer > 0) {
-        setState(() {
-          _resendTimer--;
-        });
+        if (mounted && !_isDisposed) {
+          setState(() {
+            _resendTimer--;
+          });
+        }
       } else {
         timer.cancel();
       }
@@ -97,27 +109,52 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
 
   @override
   void dispose() {
-    _timer.cancel();
-    _animationController.dispose();
-    _pulseController.dispose();
-    _otpController.dispose();
+    if (_isDisposed) return; // Prevent double disposal
+    _isDisposed = true;
+    
+    // Cancel timer first to prevent any further state updates
+    _timer?.cancel();
+    _timer = null;
+    
+    // Dispose animation controllers with try-catch
+    try {
+      _animationController.dispose();
+    } catch (e) {
+      // Animation controller already disposed, ignore
+    }
+    
+    try {
+      _pulseController.dispose();
+    } catch (e) {
+      // Pulse controller already disposed, ignore
+    }
+    
+    // Dispose text controller with try-catch
+    try {
+      _otpController?.dispose();
+    } catch (e) {
+      // Text controller already disposed, ignore
+    }
+    
     super.dispose();
   }
 
-  /// Sends OTP to the user's phone number. Replace with real API call in the future.
+  /// Sends OTP to the user's phone number using API
   Future<void> _sendOTP() async {
-    if (mounted) {
-      setState(() {
-        _isResending = true;
-      });
-    }
+    if (!mounted || _isDisposed) return;
+    
+    setState(() {
+      _isResending = true;
+    });
 
     try {
-      // TODO: Replace with real OTP send API call
-      await Future.delayed(const Duration(milliseconds: 500));
+      // Call real resend OTP API
+      final result = await _authApiService.resendOtp(widget.phoneNumber);
 
-      // Show success message
-      if (mounted) {
+      if (!mounted || _isDisposed) return;
+
+      if (result['success'] == true) {
+        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
@@ -127,10 +164,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                   color: Colors.white,
                   size: 20,
                 ),
-                const SizedBox(width: AppTheme.spacing12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'OTP sent to +91 ${widget.phoneNumber}',
+                    result['message'] ?? 'OTP sent to +91 ${widget.phoneNumber}',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.white,
                         ),
@@ -138,17 +175,16 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                 ),
               ],
             ),
-            backgroundColor: Theme.of(context).extension<AppColors>()!.success,
+            backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: BorderRadius.circular(12),
             ),
-            margin: const EdgeInsets.all(AppTheme.spacing16),
+            margin: const EdgeInsets.all(16),
           ),
         );
-      }
-    } catch (e) {
-      if (mounted) {
+      } else {
+        // Show error message from API
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
@@ -158,7 +194,38 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                   color: Colors.white,
                   size: 20,
                 ),
-                const SizedBox(width: AppTheme.spacing12),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    result['message'] ?? 'Failed to send OTP',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: Colors.white,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            margin: const EdgeInsets.all(16),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted && !_isDisposed) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     'Failed to send OTP: $e',
@@ -172,14 +239,14 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
             backgroundColor: Theme.of(context).colorScheme.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: BorderRadius.circular(12),
             ),
-            margin: const EdgeInsets.all(AppTheme.spacing16),
+            margin: const EdgeInsets.all(16),
           ),
         );
       }
     } finally {
-      if (mounted) {
+      if (mounted && !_isDisposed) {
         setState(() {
           _isResending = false;
         });
@@ -188,9 +255,13 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
   }
 
   Future<void> _resendOTP() async {
-    if (_resendTimer > 0) return;
+    if (_resendTimer > 0 || !mounted || _isDisposed) return;
 
-    if (mounted) {
+    // Cancel existing timer before starting new one
+    _timer?.cancel();
+    _timer = null;
+
+    if (mounted && !_isDisposed) {
       setState(() {
         _resendTimer = 30;
       });
@@ -199,15 +270,25 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
     await _sendOTP();
   }
 
-  /// Verifies the entered OTP. Replace with real API call in the future.
+  /// Verifies the entered OTP using real API
   Future<void> _verifyOTP() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!mounted || _isDisposed || !_formKey.currentState!.validate()) return;
 
-    // Store the OTP text before any async operations
-    final String otpText = _otpController.text;
+    // Store the OTP text before any async operations to avoid accessing disposed controller
+    final String otpText;
+    try {
+      otpText = _otpController?.text ?? '';
+      if (otpText.isEmpty) {
+        // Controller is null or empty
+        return;
+      }
+    } catch (e) {
+      // Controller already disposed
+      return;
+    }
 
-    if (otpText.length != 6) {
-      if (mounted) {
+    if (otpText.length < 4) {
+      if (mounted && !_isDisposed) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
@@ -217,10 +298,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                   color: Colors.white,
                   size: 20,
                 ),
-                const SizedBox(width: AppTheme.spacing12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Please enter a valid 6-digit OTP',
+                    'Please enter at least 4 digits',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.white,
                         ),
@@ -228,34 +309,65 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                 ),
               ],
             ),
-            backgroundColor: Theme.of(context).extension<AppColors>()!.warning,
+            backgroundColor: Colors.orange,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: BorderRadius.circular(12),
             ),
-            margin: const EdgeInsets.all(AppTheme.spacing16),
+            margin: const EdgeInsets.all(16),
           ),
         );
       }
       return;
     }
 
-    if (mounted) {
+    if (mounted && !_isDisposed) {
       setState(() {
         _isLoading = true;
       });
     }
 
     try {
-      // TODO: Replace with real OTP verify API call
-      await Future.delayed(const Duration(milliseconds: 500));
+      // Call real OTP verification API with mobile number
+      final result = await _authApiService.validateOtp(otpText, widget.phoneNumber);
 
       // Check if widget is still mounted before proceeding
-      if (!mounted) return;
+      if (!mounted || _isDisposed) return;
 
-      // Simulate OTP verification (123456 is always valid for demo)
-      if (otpText == '123456') {
-        if (mounted) {
+      if (result['success'] == true) {
+        // OTP verification successful
+        if (mounted && !_isDisposed) {
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(
+                    Icons.check_circle,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      result['message'] ?? 'OTP verified successfully!',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Colors.white,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              margin: const EdgeInsets.all(16),
+            ),
+          );
+
+          // Navigate to dashboard
           Navigator.pushReplacement(
             context,
             PageRouteBuilder(
@@ -276,7 +388,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
           );
         }
       } else {
-        if (mounted) {
+        // OTP verification failed
+        if (mounted && !_isDisposed) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Row(
@@ -286,10 +399,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                     color: Colors.white,
                     size: 20,
                   ),
-                  const SizedBox(width: AppTheme.spacing12),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Invalid OTP. Please try again.',
+                      result['message'] ?? 'Invalid OTP. Please try again.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Colors.white,
                           ),
@@ -300,9 +413,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
               backgroundColor: Theme.of(context).colorScheme.error,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppTheme.radius12),
+                borderRadius: BorderRadius.circular(12),
               ),
-              margin: const EdgeInsets.all(AppTheme.spacing16),
+              margin: const EdgeInsets.all(16),
             ),
           );
         }
@@ -318,7 +431,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                   color: Colors.white,
                   size: 20,
                 ),
-                const SizedBox(width: AppTheme.spacing12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     'Verification failed: $e',
@@ -332,9 +445,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
             backgroundColor: Theme.of(context).colorScheme.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppTheme.radius12),
+              borderRadius: BorderRadius.circular(12),
             ),
-            margin: const EdgeInsets.all(AppTheme.spacing16),
+            margin: const EdgeInsets.all(16),
           ),
         );
       }
@@ -368,7 +481,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
         ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(AppTheme.radius24),
+            bottom: Radius.circular(24),
           ),
         ),
       ),
@@ -391,13 +504,13 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
             child: SlideTransition(
               position: _slideAnimation,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(AppTheme.spacing24),
+                padding: const EdgeInsets.all(24),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: AppTheme.spacing32),
+                      const SizedBox(height: 32),
 
                       // OTP Icon with Pulse Animation
                       ScaleTransition(
@@ -406,14 +519,20 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                           width: 120,
                           height: 120,
                           decoration: BoxDecoration(
-                            gradient: Theme.of(context)
-                                .extension<AppColors>()!
-                                .primaryGradient,
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF3B82F6), Color(0xFF60A5FA)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
                             borderRadius:
-                                BorderRadius.circular(AppTheme.radiusFull),
-                            boxShadow: AppTheme.getShadow(Theme.of(context)
-                                .extension<AppColors>()!
-                                .shadow['default']!),
+                                BorderRadius.circular(999),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.08),
+                                offset: const Offset(0, 4),
+                                blurRadius: 8,
+                              ),
+                            ],
                           ),
                           child: const Icon(
                             Icons.phone_android,
@@ -423,7 +542,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                         ),
                       ),
 
-                      const SizedBox(height: AppTheme.spacing32),
+                      const SizedBox(height: 32),
 
                       // Title
                       Text(
@@ -437,26 +556,24 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                         textAlign: TextAlign.center,
                       ),
 
-                      const SizedBox(height: AppTheme.spacing16),
+                      const SizedBox(height: 16),
 
                       // Subtitle
                       Text(
                         'We\'ve sent a 6-digit verification code to',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: Theme.of(context)
-                                  .extension<AppColors>()!
-                                  .neutral[600],
+                              color: Colors.grey.shade600,
                             ),
                         textAlign: TextAlign.center,
                       ),
 
-                      const SizedBox(height: AppTheme.spacing8),
+                      const SizedBox(height: 8),
 
                       // Phone Number
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: AppTheme.spacing20,
-                          vertical: AppTheme.spacing12,
+                          horizontal: 20,
+                          vertical: 12,
                         ),
                         decoration: BoxDecoration(
                           color: Theme.of(context)
@@ -464,7 +581,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                               .primary
                               .withOpacity(0.1),
                           borderRadius:
-                              BorderRadius.circular(AppTheme.radius16),
+                              BorderRadius.circular(16),
                           border: Border.all(
                             color: Theme.of(context)
                                 .colorScheme
@@ -484,65 +601,73 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                         ),
                       ),
 
-                      const SizedBox(height: AppTheme.spacing40),
+                      const SizedBox(height: 40),
 
                       // OTP Input Field
-                      PinCodeTextField(
-                        appContext: context,
-                        length: 6,
-                        controller: _otpController,
-                        onChanged: (value) {},
-                        onCompleted: (value) {
-                          _verifyOTP();
-                        },
-                        pinTheme: PinTheme(
-                          shape: PinCodeFieldShape.box,
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radius12),
-                          fieldHeight: AppTheme.spacing56,
-                          fieldWidth: AppTheme.spacing48,
-                          activeFillColor: Theme.of(context).cardColor,
-                          activeColor: Theme.of(context).colorScheme.primary,
-                          selectedColor: Theme.of(context).colorScheme.primary,
-                          inactiveColor: Theme.of(context)
-                              .extension<AppColors>()!
-                              .border['default'],
-                          selectedFillColor: Theme.of(context).cardColor,
-                          inactiveFillColor: Theme.of(context).cardColor,
+                      Container(
+                        height: 56,
+                        child: TextField(
+                          controller: _otpController,
+                          keyboardType: TextInputType.number,
+                          maxLength: 6,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 8,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: '• • • • • •',
+                            hintStyle: TextStyle(
+                              color: Colors.grey.shade400,
+                              fontSize: 24,
+                              letterSpacing: 8,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.grey.shade300),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.grey.shade300),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            counterText: '',
+                          ),
+                          onChanged: (value) {
+                            if (value.length == 6) {
+                              _verifyOTP();
+                            }
+                          },
                         ),
-                        keyboardType: TextInputType.number,
-                        enableActiveFill: true,
-                        animationType: AnimationType.fade,
-                        textStyle:
-                            Theme.of(context).textTheme.labelLarge?.copyWith(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
                       ),
 
-                      const SizedBox(height: AppTheme.spacing32),
+                      const SizedBox(height: 32),
 
                       // Verify Button
                       SizedBox(
                         width: double.infinity,
-                        height: AppTheme.spacing56,
+                        height: 56,
                         child: ElevatedButton(
-                          onPressed: _isLoading ? null : _verifyOTP,
+                          onPressed: (_isLoading || _isDisposed) ? null : _verifyOTP,
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
                             foregroundColor: Colors.white,
                             elevation: 0,
-                            shadowColor: Theme.of(context)
-                                .extension<AppColors>()!
-                                .shadow['default'],
+                            shadowColor: Colors.black.withOpacity(0.05),
                             shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.circular(AppTheme.radius16),
+                                  BorderRadius.circular(16),
                             ),
                             padding: const EdgeInsets.symmetric(
-                              horizontal: AppTheme.spacing32,
-                              vertical: AppTheme.spacing20,
+                              horizontal: 32,
+                              vertical: 20,
                             ),
                           ),
                           child: _isLoading
@@ -563,7 +688,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                                       Icons.verified,
                                       size: 20,
                                     ),
-                                    const SizedBox(width: AppTheme.spacing12),
+                                    const SizedBox(width: 12),
                                     Text(
                                       'Verify OTP',
                                       style: Theme.of(context)
@@ -579,7 +704,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                         ),
                       ),
 
-                      const SizedBox(height: AppTheme.spacing24),
+                      const SizedBox(height: 24),
 
                       // Resend OTP Section
                       Row(
@@ -591,29 +716,25 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                                 .textTheme
                                 .bodyMedium
                                 ?.copyWith(
-                                  color: Theme.of(context)
-                                      .extension<AppColors>()!
-                                      .neutral[600],
+                                  color: Colors.grey.shade600,
                                 ),
                           ),
                           GestureDetector(
                             onTap: _resendTimer > 0 ? null : _resendOTP,
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: AppTheme.spacing12,
-                                vertical: AppTheme.spacing4,
+                                horizontal: 12,
+                                vertical: 4,
                               ),
                               decoration: BoxDecoration(
                                 color: _resendTimer > 0
-                                    ? Theme.of(context)
-                                        .extension<AppColors>()!
-                                        .border['default']
+                                    ? const Color(0xFFE5E7EB)
                                     : Theme.of(context)
                                         .colorScheme
                                         .primary
                                         .withOpacity(0.1),
                                 borderRadius:
-                                    BorderRadius.circular(AppTheme.radius8),
+                                    BorderRadius.circular(8),
                               ),
                               child: Text(
                                 _resendTimer > 0
@@ -625,9 +746,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                                     ?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: _resendTimer > 0
-                                          ? Theme.of(context)
-                                              .extension<AppColors>()!
-                                              .neutral[600]
+                                          ? Colors.grey.shade600
                                           : Theme.of(context)
                                               .colorScheme
                                               .primary,
@@ -639,7 +758,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                       ),
 
                       if (_isResending) ...[
-                        const SizedBox(height: AppTheme.spacing16),
+                        const SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -653,75 +772,19 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                                 ),
                               ),
                             ),
-                            const SizedBox(width: AppTheme.spacing8),
+                            const SizedBox(width: 8),
                             Text(
                               'Sending OTP...',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                    color: Theme.of(context)
-                                        .extension<AppColors>()!
-                                        .neutral[600],
+                                    color: Colors.grey.shade600,
                                   ),
                             ),
                           ],
                         ),
                       ],
-
-                      const SizedBox(height: AppTheme.spacing40),
-
-                      // Demo OTP Hint
-                      Container(
-                        padding: const EdgeInsets.all(AppTheme.spacing20),
-                        decoration: BoxDecoration(
-                          gradient: Theme.of(context)
-                              .extension<AppColors>()!
-                              .infoGradient,
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radius16),
-                          boxShadow: AppTheme.getShadow(Theme.of(context)
-                              .extension<AppColors>()!
-                              .shadow['default']!),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.info_outline,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                            const SizedBox(width: AppTheme.spacing16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Demo Mode',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
-                                  ),
-                                  const SizedBox(height: AppTheme.spacing4),
-                                  Text(
-                                    'Use 123456 as OTP for testing',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: Colors.white.withOpacity(0.9),
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
