@@ -67,5 +67,14 @@
 	<string>This app needs access to your photo library to select driver photos.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app needs to save photos to your library.</string>
+	<!-- Background modes for FCM -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<!-- Firebase Cloud Messaging APS Environment -->
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 </dict>
 </plist>

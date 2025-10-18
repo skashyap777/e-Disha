@@ -75,11 +75,22 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     _loadSettings();
     _initializeMap();
     
-    // Open history dialog if requested
+    // Open history dialog if requested, but only after vehicles are loaded
     if (widget.openHistoryDialog) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          _showHistoryPlaybackDialog();
+          // Load initial GPS data first, then show history dialog
+          _loadInitialGPSData().then((_) {
+            if (mounted) {
+              _showHistoryPlaybackDialog();
+            }
+          }).catchError((error) {
+            if (mounted) {
+              // Even if loading fails, still try to show the dialog
+              // as there might be cached data or the user might want to retry
+              _showHistoryPlaybackDialog();
+            }
+          });
         }
       });
     }
@@ -1103,7 +1114,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.history, color: Colors.white),
-            onPressed: _showHistoryPlaybackDialog,
+            onPressed: () => _showHistoryPlaybackDialog(),
             tooltip: 'History Playback',
           ),
           IconButton(
@@ -1326,8 +1337,45 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   }
 
   void _showHistoryPlaybackDialog() {
+    // Ensure we have vehicle data before showing the dialog
+    if (_availableVehicles.isEmpty) {
+      // Load vehicle data first if not available
+      _loadInitialGPSData().then((_) {
+        if (mounted && _availableVehicles.isNotEmpty) {
+          // Now show the dialog with updated vehicle data
+          _showHistoryPlaybackDialogWithVehicles();
+        } else if (mounted) {
+          // Show error if still no vehicles
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No vehicles available for history playback'),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+      }).catchError((error) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error loading vehicles: $error'),
+              backgroundColor: Colors.red,
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+      });
+    } else {
+      // Show dialog immediately if vehicles are already loaded
+      _showHistoryPlaybackDialogWithVehicles();
+    }
+  }
+
+  void _showHistoryPlaybackDialogWithVehicles() {
     DateTime startDate = DateTime.now().subtract(const Duration(days: 1));
     DateTime endDate = DateTime.now();
+    TimeOfDay startTime = const TimeOfDay(hour: 0, minute: 0);
+    TimeOfDay endTime = const TimeOfDay(hour: 23, minute: 59);
     String? selectedVehicle = _availableVehicles.isNotEmpty
         ? _availableVehicles.first.vehicleId
         : null;
@@ -1431,6 +1479,46 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    
+                    // Start Time
+                    const Text(
+                      'Start Time:',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    InkWell(
+                      onTap: () async {
+                        final TimeOfDay? picked = await showTimePicker(
+                          context: context,
+                          initialTime: startTime,
+                        );
+                        if (picked != null) {
+                          setState(() {
+                            startTime = picked;
+                          });
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.access_time,
+                                color: Color(0xFFFFD700), size: 20),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 16),
 
                     // End Date
@@ -1473,6 +1561,46 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    
+                    // End Time
+                    const Text(
+                      'End Time:',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    InkWell(
+                      onTap: () async {
+                        final TimeOfDay? picked = await showTimePicker(
+                          context: context,
+                          initialTime: endTime,
+                        );
+                        if (picked != null) {
+                          setState(() {
+                            endTime = picked;
+                          });
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.access_time,
+                                color: Color(0xFFFFD700), size: 20),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}',
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -1486,8 +1614,8 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                       ? () {
                           Navigator.of(context).pop();
                           _loadHistoryData(
-                            startDate: startDate,
-                            endDate: endDate,
+                            startDate: DateTime(startDate.year, startDate.month, startDate.day, startTime.hour, startTime.minute),
+                            endDate: DateTime(endDate.year, endDate.month, endDate.day, endTime.hour, endTime.minute),
                             vehicleId: selectedVehicle!,
                           );
                         }

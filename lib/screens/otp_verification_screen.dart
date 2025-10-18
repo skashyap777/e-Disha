@@ -44,7 +44,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
     _otpController = TextEditingController();
     _startResendTimer();
     _initializeAnimations();
-    _sendOTP(); // Auto-send OTP when screen loads
+    // OTP should be sent from login screen, not here
   }
 
   void _initializeAnimations() {
@@ -287,7 +287,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
       return;
     }
 
-    if (otpText.length < 4) {
+    if (otpText.length < 6) {
       if (mounted && !_isDisposed) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -301,7 +301,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Please enter at least 4 digits',
+                    'Please enter all 6 digits',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.white,
                         ),
@@ -640,8 +640,15 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen>
                             counterText: '',
                           ),
                           onChanged: (value) {
-                            if (value.length == 6) {
-                              _verifyOTP();
+                            // Only auto-verify if user has typed exactly 6 digits
+                            // and hasn't manually triggered verification recently
+                            if (value.length == 6 && !_isLoading) {
+                              // Add a small delay to let user finish typing
+                              Future.delayed(const Duration(milliseconds: 800), () {
+                                if (mounted && !_isDisposed && _otpController?.text.length == 6 && !_isLoading) {
+                                  _verifyOTP();
+                                }
+                              });
                             }
                           },
                         ),

@@ -10,17 +10,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:edisha/services/auth_api_service.dart';
 
 class GPSTrackingService {
-  static final GPSTrackingService _instance = GPSTrackingService._internal();
-  factory GPSTrackingService() => _instance;
-  GPSTrackingService._internal() {
-    _initializeClient();
-  }
-
   final Logger _logger = Logger();
   Timer? _trackingTimer;
   Timer? _realTimeTimer;
   late http.Client _client;
-  final AuthApiService _authService = AuthApiService();
+  late AuthApiService _authService;
+
+  GPSTrackingService() {
+    _initializeClient();
+    _authService = AuthApiService();
+  }
   
   // Callback functions for location updates
   Function(List<GPSLocationData>)? _onLocationUpdate;

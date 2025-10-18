@@ -38,6 +38,8 @@ dependencies:
   # Firebase Services
   firebase_core: ^2.24.2
   firebase_crashlytics: ^3.4.9
+  firebase_messaging: ^14.7.9
+  flutter_local_notifications: ^17.2.3
 
   # Environment Variables
   flutter_dotenv: ^5.1.0
@@ -50,6 +52,12 @@ dependencies:
   basic_utils: ^5.1.2
   crypto: ^3.0.3
   image_picker: ^1.2.0
+  
+  # Dependency Injection & Performance Optimization
+  get_it: ^7.6.0
+  dio_cache_interceptor: ^3.5.0
+  flutter_secure_storage: ^9.0.0
+  shimmer: ^3.0.0
   
   # Maps and Location
   google_maps_flutter: ^2.5.3

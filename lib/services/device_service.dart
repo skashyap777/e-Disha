@@ -6,14 +6,13 @@ import 'package:flutter/foundation.dart';
 import 'package:edisha/services/auth_api_service.dart';
 
 class DeviceService {
-  static final DeviceService _instance = DeviceService._internal();
-  factory DeviceService() => _instance;
-  DeviceService._internal() {
-    _initializeClient();
-  }
-
   late http.Client _client;
-  final AuthApiService _authService = AuthApiService();
+  late AuthApiService _authService;
+
+  DeviceService() {
+    _initializeClient();
+    _authService = AuthApiService();
+  }
 
   // Initialize the HTTP client with SSL bypass
   void _initializeClient() {

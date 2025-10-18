@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:edisha/providers/theme_provider.dart';
 import 'package:edisha/providers/dashboard_provider.dart';
@@ -16,6 +18,7 @@ import 'package:edisha/screens/map_screen.dart';
 import 'package:edisha/screens/alert_page.dart'; // Import for AlertPage
 import 'package:edisha/screens/live_tracking_screen.dart';
 import 'package:edisha/screens/alert_management_screen.dart';
+import 'package:edisha/screens/notification_screen.dart';
 import 'package:edisha/screens/driver_management_screen.dart';
 import 'package:edisha/screens/route_fixing_screen.dart';
 import 'package:edisha/screens/vehicle_history_screen.dart';
@@ -23,10 +26,25 @@ import 'package:edisha/screens/route_history_screen.dart';
 import 'package:edisha/screens/route_map_view_screen.dart';
 import 'package:edisha/services/device_service.dart';
 import 'package:edisha/services/route_service.dart';
+import 'package:edisha/core/service_locator.dart';
+import 'package:edisha/services/fcm_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
+  
+  // Initialize Firebase
+  await Firebase.initializeApp();
+  
+  // Set up background message handler
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  
+  // Initialize e-Disha service locator
+  await setupEDishaServices();
+  
+  // Initialize FCM Service
+  await FCMService().initialize();
+  
   runApp(
     MultiProvider(
       providers: [
@@ -64,6 +82,7 @@ class MyApp extends StatelessWidget {
         '/add-driver': (context) => const DriverManagementScreen(),
         '/driver-management': (context) => const DriverManagementScreen(),
         '/alert-management': (context) => const AlertManagementScreen(),
+        '/notifications': (context) => const NotificationScreen(),
         '/reports': (context) => const PlaceholderScreen(title: 'Reports'),
         '/map': (context) => const MapScreen(),
         '/alert-page': (context) =>

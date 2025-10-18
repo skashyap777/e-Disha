@@ -11,6 +11,8 @@ import 'alert_management_screen.dart';
 import 'driver_management_screen.dart';
 import '../providers/dashboard_provider.dart';
 import '../services/auth_api_service.dart';
+import '../widgets/responsive_dashboard_cards.dart';
+import '../widgets/service_management_card.dart';
 
 // App Colors - moved from theme files
 class AppColors {
@@ -154,7 +156,12 @@ class _DashboardScreenState extends State<DashboardScreen>
         Navigator.pushNamed(context, '/live-tracking');
         break;
       case 3:
-        Navigator.pushNamed(context, '/history');
+        // Navigate to Live Tracking and automatically open history playback dialog
+        Navigator.pushNamed(
+          context, 
+          '/live-tracking',
+          arguments: {'openHistoryDialog': true},
+        );
         break;
     }
   }
@@ -544,14 +551,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/live-tracking');
                 }),
-                _DrawerItem(Icons.history_rounded, 'History Playback', () async {
+                _DrawerItem(Icons.history_rounded, 'Vehicle History', () {
                   Navigator.pop(context);
-                  // Navigate to Live Tracking and automatically open history playback dialog
-                  await Navigator.pushNamed(
-                    context, 
-                    '/live-tracking',
-                    arguments: {'openHistoryDialog': true},
-                  );
+                  Navigator.pushNamed(context, '/history');
                 }),
                 _DrawerItem(Icons.person_add_rounded, 'Add Driver', () {
                   Navigator.pop(context);
@@ -639,7 +641,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               BottomNavigationBarItem(
                 icon: Icon(Icons.history_rounded),
                 activeIcon: Icon(Icons.history_rounded),
-                label: 'History',
+                label: 'History Playback',
               ),
             ],
           ),
@@ -736,16 +738,13 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   List<Widget> _buildDashboardCards(DashboardProvider provider) {
-    // Get real vehicle data from provider
-    final vehicleData = provider.getVehicleData() ?? {'total': 0, 'active': 0, 'inactive': 0};
-    final alertData = provider.getAlertData() ?? {'total': 0, 'today': 0, 'thisMonth': 0};
-    final driverData = provider.getDriverData() ?? {'total': 0, 'active': 0};
-    
     return [
+      // Responsive Vehicle Status Card
       FadeTransition(
         opacity: _animationController,
-        child: _VehicleCard(data: vehicleData),
+        child: const ResponsiveVehicleStatusCard(),
       ),
+      // Responsive Alert Overview Card
       SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(0, 0.3),
@@ -753,27 +752,12 @@ class _DashboardScreenState extends State<DashboardScreen>
         ).animate(
           CurvedAnimation(
             parent: _animationController,
-            curve: const Interval(0.15, 1.0, curve: Curves.easeOut),
+            curve: const Interval(0.25, 1.0, curve: Curves.easeOut),
           ),
         ),
-        child: _FleetCategoriesCard(
-          data: _staticDashboardData['fleetCategories'] ?? {},
-        ),
+        child: const ResponsiveAlertOverviewCard(),
       ),
-      SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 0.3),
-          end: Offset.zero,
-        ).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: const Interval(0.2, 1.0, curve: Curves.easeOut),
-          ),
-        ),
-        child: _RealTimeMetricsCard(
-          data: _staticDashboardData['realTimeMetrics'] ?? {},
-        ),
-      ),
+      // Responsive Driver Behaviour Card
       SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(0, 0.3),
@@ -784,8 +768,9 @@ class _DashboardScreenState extends State<DashboardScreen>
             curve: const Interval(0.5, 1.0, curve: Curves.easeOut),
           ),
         ),
-        child: _AlertsCard(data: alertData),
+        child: const ResponsiveDriverBehaviourCard(),
       ),
+      // Enhanced Service Management Card
       SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(0, 0.3),
@@ -793,39 +778,10 @@ class _DashboardScreenState extends State<DashboardScreen>
         ).animate(
           CurvedAnimation(
             parent: _animationController,
-            curve: const Interval(0.6, 1.0, curve: Curves.easeOut),
+            curve: const Interval(0.75, 1.0, curve: Curves.easeOut),
           ),
         ),
-        child: _HealthCard(data: _staticDashboardData['health']),
-      ),
-      SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 0.3),
-          end: Offset.zero,
-        ).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: const Interval(0.8, 1.0, curve: Curves.easeOut),
-          ),
-        ),
-        child: _DriverCard(data: {
-          'totalDrivers': driverData['total'],
-          'harshBraking': 3, // TODO: Get from API
-          'suddenTurn': 7, // TODO: Get from API
-          'overspeeding': 1, // TODO: Get from API
-        }),
-      ),
-      SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 0.3),
-          end: Offset.zero,
-        ).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: const Interval(0.9, 1.0, curve: Curves.easeOut),
-          ),
-        ),
-        child: _ServiceManagementCard(),
+        child: const ServiceManagementCard(),
       ),
     ];
   }

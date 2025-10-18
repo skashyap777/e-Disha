@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "381454662245",
+    "project_id": "e-disha",
+    "storage_bucket": "e-disha.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381454662245:android:64700df9437b9eefb5648c",
+        "android_client_info": {
+          "package_name": "com.example.edisha"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU0kFoDRRUfpLI1oGJZCjtCYCG81cM54c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
