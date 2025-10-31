@@ -13,6 +13,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # UI Icons
   cupertino_icons: ^1.0.8
@@ -47,7 +49,7 @@ dependencies:
   
   # Utilities
   logger: ^2.0.2+1
-  intl: ^0.19.0
+  intl: ^0.20.2
   encrypt: ^5.0.1
   basic_utils: ^5.1.2
   crypto: ^3.0.3
@@ -87,6 +89,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  
+  # Generate localization files
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

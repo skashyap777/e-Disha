@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../generated/app_localizations.dart';
 import 'package:edisha/services/device_service.dart';
 import 'package:edisha/widgets/custom_vehicle_icons.dart';
 
@@ -178,13 +179,13 @@ class _VehicleHistoryScreenState extends State<VehicleHistoryScreen>
                         ),
                       ),
                       const SizedBox(width: 12),
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Vehicle History',
-                              style: TextStyle(
+                              AppLocalizations.of(context)?.vehicleHistoryTitle ?? 'Vehicle History',
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.w700,
@@ -192,8 +193,8 @@ class _VehicleHistoryScreenState extends State<VehicleHistoryScreen>
                               ),
                             ),
                             Text(
-                              'Track your fleet movements',
-                              style: TextStyle(
+                              AppLocalizations.of(context)?.trackYourFleet ?? 'Track your fleet movements',
+                              style: const TextStyle(
                                 color: Colors.white70,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
@@ -264,11 +265,11 @@ class _VehicleHistoryScreenState extends State<VehicleHistoryScreen>
           // Filter Chips
           Row(
             children: [
-              _buildFilterChip('All', 'all', theme),
+              _buildFilterChip(AppLocalizations.of(context)?.all ?? 'All', 'all', theme),
               const SizedBox(width: 8),
-              _buildFilterChip('Active', 'active', theme),
+              _buildFilterChip(AppLocalizations.of(context)?.active ?? 'Active', 'active', theme),
               const SizedBox(width: 8),
-              _buildFilterChip('Inactive', 'inactive', theme),
+              _buildFilterChip(AppLocalizations.of(context)?.inactive ?? 'Inactive', 'inactive', theme),
             ],
           ),
         ],

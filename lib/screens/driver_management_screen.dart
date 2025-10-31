@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
+import '../generated/app_localizations.dart';
 import '../services/driver_api_service.dart';
 import '../services/device_service.dart';
 import '../helpers/service_integration_helper.dart';
@@ -576,12 +577,12 @@ class _DriverManagementScreenState extends State<DriverManagementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Driver Management'),
+        title: Text(AppLocalizations.of(context)?.driverManagementTitle ?? 'Driver Management'),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadDrivers,
-            tooltip: 'Refresh',
+            tooltip: AppLocalizations.of(context)?.refresh ?? 'Refresh',
           ),
         ],
       ),
@@ -591,10 +592,10 @@ class _DriverManagementScreenState extends State<DriverManagementScreen> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Search drivers...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context)?.searchDrivers ?? 'Search drivers...',
+                prefixIcon: const Icon(Icons.search),
+                border: const OutlineInputBorder(),
               ),
               onChanged: (value) {
                 setState(() {
@@ -608,7 +609,7 @@ class _DriverManagementScreenState extends State<DriverManagementScreen> {
           // Drivers List
           Expanded(
             child: _serviceHelper.isServiceLoading(tagOwnerServiceName)
-                ? ServiceIntegrationHelper.buildLoadingWidget('Loading drivers...')
+                ? ServiceIntegrationHelper.buildLoadingWidget(AppLocalizations.of(context)?.loadingDrivers ?? 'Loading drivers...')
                 : _serviceHelper.hasServiceError(tagOwnerServiceName)
                     ? ServiceIntegrationHelper.buildErrorWidget(
                         _serviceHelper.getServiceError(tagOwnerServiceName) ?? 'Unknown error',
@@ -616,7 +617,7 @@ class _DriverManagementScreenState extends State<DriverManagementScreen> {
                       )
                     : _filteredDrivers.isEmpty
                         ? ServiceIntegrationHelper.buildEmptyStateWidget(
-                            'No drivers found',
+                            AppLocalizations.of(context)?.noDriversFound ?? 'No drivers found',
                             Icons.people_outline,
                           )
                         : ListView.builder(
@@ -784,11 +785,11 @@ class _AddDriverDialogState extends State<AddDriverDialog> {
                       color: Colors.blue,
                     ),
                   ),
-                  title: const Text(
-                    'Take Photo',
+                  title: Text(
+                    AppLocalizations.of(context)?.takePhoto ?? 'Take Photo',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
-                  subtitle: const Text('Use camera to capture photo'),
+                  subtitle: Text(AppLocalizations.of(context)?.useCameraToCapture ?? 'Use camera to capture photo'),
                   onTap: () => Navigator.pop(context, ImageSource.camera),
                 ),
                 // Gallery Option
@@ -804,11 +805,11 @@ class _AddDriverDialogState extends State<AddDriverDialog> {
                       color: Colors.green,
                     ),
                   ),
-                  title: const Text(
-                    'Choose from Gallery',
+                  title: Text(
+                    AppLocalizations.of(context)?.chooseFromGallery ?? 'Choose from Gallery',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
-                  subtitle: const Text('Select from existing photos'),
+                  subtitle: Text(AppLocalizations.of(context)?.selectFromExistingPhotos ?? 'Select from existing photos'),
                   onTap: () => Navigator.pop(context, ImageSource.gallery),
                 ),
                 const SizedBox(height: 10),
@@ -905,7 +906,7 @@ class _AddDriverDialogState extends State<AddDriverDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Add New Driver'),
+      title: Text(AppLocalizations.of(context)?.addNewDriver ?? 'Add New Driver'),
       content: SizedBox(
         width: double.maxFinite,
         child: SingleChildScrollView(
@@ -938,7 +939,7 @@ class _AddDriverDialogState extends State<AddDriverDialog> {
                               Icon(Icons.add_a_photo, size: 40, color: Colors.grey.shade400),
                               const SizedBox(height: 8),
                               Text(
-                                'Tap to add photo',
+                                AppLocalizations.of(context)?.tapToAddPhoto ?? 'Tap to add photo',
                                 style: TextStyle(
                                   color: Colors.grey.shade600,
                                   fontSize: 12,
@@ -947,7 +948,7 @@ class _AddDriverDialogState extends State<AddDriverDialog> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Camera or Gallery',
+                                AppLocalizations.of(context)?.cameraOrGallery ?? 'Camera or Gallery',
                                 style: TextStyle(
                                   color: Colors.grey.shade500,
                                   fontSize: 10,
@@ -963,14 +964,14 @@ class _AddDriverDialogState extends State<AddDriverDialog> {
                 // Name Field
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Driver Name',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)?.driverName ?? 'Driver Name',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.person),
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter driver name';
+                      return AppLocalizations.of(context)?.pleaseEnterDriverName ?? 'Please enter driver name';
                     }
                     return null;
                   },
@@ -980,14 +981,14 @@ class _AddDriverDialogState extends State<AddDriverDialog> {
                 // License Field
                 TextFormField(
                   controller: _licenseController,
-                  decoration: const InputDecoration(
-                    labelText: 'License Number',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)?.licenseNumber ?? 'License Number',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.credit_card),
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter license number';
+                      return AppLocalizations.of(context)?.pleaseEnterLicenseNumber ?? 'Please enter license number';
                     }
                     return null;
                   },
@@ -997,18 +998,18 @@ class _AddDriverDialogState extends State<AddDriverDialog> {
                 // Phone Field
                 TextFormField(
                   controller: _phoneController,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone Number',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)?.phoneNumber ?? 'Phone Number',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.phone),
                   ),
                   keyboardType: TextInputType.phone,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter phone number';
+                      return AppLocalizations.of(context)?.pleaseEnterPhoneNumber ?? 'Please enter phone number';
                     }
                     if (value.length < 10) {
-                      return 'Please enter a valid phone number';
+                      return AppLocalizations.of(context)?.pleaseEnterValidPhoneNumber ?? 'Please enter a valid phone number';
                     }
                     return null;
                   },

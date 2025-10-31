@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../generated/app_localizations.dart';
 import '../services/gps_tracking_service.dart';
 import '../services/settings_service.dart';
 import '../widgets/custom_vehicle_icons.dart';
+import 'history_playback_screen.dart';
 
 class LiveTrackingScreen extends StatefulWidget {
   final bool openHistoryDialog;
@@ -942,7 +944,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               Icon(Icons.directions_car,
                   color: Theme.of(context).primaryColor, size: 24),
               const SizedBox(width: 12),
-              const Text('Select Vehicle Type'),
+              Text(AppLocalizations.of(context)?.selectVehicleType ?? 'Select Vehicle Type'),
             ],
           ),
           content: Column(
@@ -990,7 +992,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               Icon(Icons.timer,
                   color: Theme.of(context).primaryColor, size: 24),
               const SizedBox(width: 12),
-              const Text('Update Interval'),
+              Text(AppLocalizations.of(context)?.updateInterval ?? 'Update Interval'),
             ],
           ),
           content: Column(
@@ -1017,7 +1019,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context)?.cancel ?? 'Cancel'),
             ),
           ],
         );
@@ -1028,15 +1030,15 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   String _getVehicleTypeName(VehicleType type) {
     switch (type) {
       case VehicleType.yellowCar:
-        return 'Yellow Car';
+        return AppLocalizations.of(context)?.yellowCar ?? 'Yellow Car';
       case VehicleType.blueCar:
-        return 'Blue Car';
+        return AppLocalizations.of(context)?.blueCar ?? 'Blue Car';
       case VehicleType.brownTruck:
-        return 'Brown Truck';
+        return AppLocalizations.of(context)?.brownTruck ?? 'Brown Truck';
       case VehicleType.bike:
-        return 'Bike';
+        return AppLocalizations.of(context)?.bike ?? 'Bike';
       case VehicleType.bus:
-        return 'Bus';
+        return AppLocalizations.of(context)?.bus ?? 'Bus';
     }
   }
 
@@ -1103,9 +1105,9 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Live Tracking',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          AppLocalizations.of(context)?.liveTrackingTitle ?? 'Live Tracking',
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: Colors.white,
@@ -1115,22 +1117,22 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           IconButton(
             icon: const Icon(Icons.history, color: Colors.white),
             onPressed: () => _showHistoryPlaybackDialog(),
-            tooltip: 'History Playback',
+            tooltip: AppLocalizations.of(context)?.historyPlaybackTitle ?? 'History Playback',
           ),
           IconButton(
             icon: const Icon(Icons.directions_car, color: Colors.white),
             onPressed: _showVehicleSelectionDialog,
-            tooltip: 'Vehicle Type',
+            tooltip: AppLocalizations.of(context)?.vehicleType ?? 'Vehicle Type',
           ),
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: _showUpdateIntervalDialog,
-            tooltip: 'Update Settings',
+            tooltip: AppLocalizations.of(context)?.updateSettings ?? 'Update Settings',
           ),
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
             onPressed: _loadInitialGPSData,
-            tooltip: 'Refresh',
+            tooltip: AppLocalizations.of(context)?.refresh ?? 'Refresh',
           ),
         ],
       ),
@@ -1174,7 +1176,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                                 backgroundColor: Colors.white,
                                 foregroundColor: theme.colorScheme.secondary,
                                 elevation: 6,
-                                tooltip: 'Show All Vehicles',
+                                tooltip: AppLocalizations.of(context)?.showAllVehicles ?? 'Show All Vehicles',
                                 child: const Icon(
                                   Icons.zoom_out_map,
                                   size: 20,
@@ -1221,7 +1223,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Error Loading Map',
+            AppLocalizations.of(context)?.errorLoadingMap ?? 'Error Loading Map',
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -1230,7 +1232,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Text(
-              _errorMessage ?? 'Unknown error occurred',
+              _errorMessage ?? (AppLocalizations.of(context)?.unknownError ?? 'Unknown error occurred'),
               style: theme.textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
@@ -1245,7 +1247,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               _initializeMap();
             },
             icon: const Icon(Icons.refresh),
-            label: const Text('Retry'),
+            label: Text(AppLocalizations.of(context)?.retry ?? 'Retry'),
           ),
         ],
       ),
@@ -1635,94 +1637,17 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     required DateTime endDate,
     required String vehicleId,
   }) async {
-    try {
-      setState(() {
-        _isLoading = true;
-        _errorMessage = null;
-      });
-
-      // Format dates for API (YYYY-MM-DD format)
-      final startDateStr =
-          '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}';
-      final endDateStr =
-          '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}';
-
-      debugPrint('🔄 Loading history data for vehicle: $vehicleId');
-      debugPrint('📅 Date range: $startDateStr to $endDateStr');
-
-      final historyData = await _gpsService.fetchGPSHistoryData(
-        startDateTime: startDateStr,
-        endDateTime: endDateStr,
-        vehicleRegistrationNumber: vehicleId,
-      );
-
-      if (historyData.isNotEmpty) {
-        setState(() {
-          _isHistoryMode = true;
-          _historyData = historyData;
-          _currentHistoryIndex = 0;
-          _historyStartDate = startDate;
-          _historyEndDate = endDate;
-          _historyVehicleId = vehicleId;
-          _isLoading = false;
-
-          // Stop live tracking when entering history mode
-          if (_isTracking) {
-            _gpsService.stopRealTimeTracking();
-            _isTracking = false;
-          }
-        });
-
-        // Show initial history point
-        await _showHistoryPoint(_currentHistoryIndex);
-
-        // Show success message
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  'Loaded ${historyData.length} history points for $vehicleId'),
-              backgroundColor: Colors.green,
-              duration: const Duration(seconds: 3),
-              behavior: SnackBarBehavior.fixed,
-            ),
-          );
-        }
-      } else {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'No history data found for the selected period';
-        });
-
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  'No history data found for $vehicleId in the selected period'),
-              backgroundColor: Colors.orange,
-              duration: const Duration(seconds: 3),
-              behavior: SnackBarBehavior.fixed,
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Failed to load history data: $e';
-      });
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error loading history: $e'),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 3),
-            behavior: SnackBarBehavior.fixed,
-          ),
-        );
-      }
-    }
+    // Navigate to the dedicated history playback screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HistoryPlaybackScreen(
+          startDate: startDate,
+          endDate: endDate,
+          vehicleId: vehicleId,
+        ),
+      ),
+    );
   }
 
   Future<void> _showHistoryPoint(int index) async {

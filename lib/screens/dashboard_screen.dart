@@ -13,6 +13,7 @@ import '../providers/dashboard_provider.dart';
 import '../services/auth_api_service.dart';
 import '../widgets/responsive_dashboard_cards.dart';
 import '../widgets/service_management_card.dart';
+import '../generated/app_localizations.dart';
 
 // App Colors - moved from theme files
 class AppColors {
@@ -156,12 +157,8 @@ class _DashboardScreenState extends State<DashboardScreen>
         Navigator.pushNamed(context, '/live-tracking');
         break;
       case 3:
-        // Navigate to Live Tracking and automatically open history playback dialog
-        Navigator.pushNamed(
-          context, 
-          '/live-tracking',
-          arguments: {'openHistoryDialog': true},
-        );
+        // Navigate directly to History Playback selection screen
+        Navigator.pushNamed(context, '/history-playback');
         break;
     }
   }
@@ -171,13 +168,13 @@ class _DashboardScreenState extends State<DashboardScreen>
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Theme.of(ctx).cardColor,
-        title: const Text('Confirm Logout'),
-        content: const Text('Are you sure you want to logout?'),
+        title: Text(AppLocalizations.of(ctx)?.confirmLogout ?? 'Confirm Logout'),
+        content: Text(AppLocalizations.of(ctx)?.areYouSureLogout ?? 'Are you sure you want to logout?'),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text('Cancel',
+            child: Text(AppLocalizations.of(ctx)?.cancel ?? 'Cancel',
                 style: TextStyle(
                     color:
                         Theme.of(ctx).colorScheme.onSurface.withOpacity(0.7))),
@@ -186,7 +183,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(ctx).colorScheme.error),
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Logout'),
+            child: Text(AppLocalizations.of(ctx)?.logout ?? 'Logout'),
           ),
         ],
       ),
@@ -223,9 +220,9 @@ class _DashboardScreenState extends State<DashboardScreen>
               .pushNamedAndRemoveUntil('/login', (route) => false);
           
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Successfully logged out'),
-              backgroundColor: Color.fromARGB(213, 50, 230, 50),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)?.successfullyLoggedOut ?? 'Successfully logged out'),
+              backgroundColor: const Color.fromARGB(213, 50, 230, 50),
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -241,7 +238,7 @@ class _DashboardScreenState extends State<DashboardScreen>
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Logout failed: $e'),
+              content: Text('${AppLocalizations.of(context)?.logoutFailed ?? 'Logout failed'}: $e'),
               backgroundColor: Theme.of(context).colorScheme.error,
               behavior: SnackBarBehavior.floating,
             ),
@@ -492,7 +489,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   children: [
                     Icon(Icons.logout_rounded, color: colorScheme.error),
                     const SizedBox(width: 8),
-                    const Text('Logout'),
+                    Text(AppLocalizations.of(context)?.logout ?? 'Logout'),
                   ],
                 ),
               ),
@@ -542,28 +539,28 @@ class _DashboardScreenState extends State<DashboardScreen>
               padding: EdgeInsets.zero,
               children: [
                 _DrawerItem(
-                    Icons.dashboard_rounded, 'Dashboard', () => Navigator.pop(context)),
-                _DrawerItem(Icons.route_rounded, 'Route Fixing', () {
+                    Icons.dashboard_rounded, AppLocalizations.of(context)?.dashboard ?? 'Dashboard', () => Navigator.pop(context)),
+                _DrawerItem(Icons.route_rounded, AppLocalizations.of(context)?.routeFixing ?? 'Route Fixing', () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/route-fixing');
                 }),
-                _DrawerItem(Icons.gps_fixed_rounded, 'Live Tracking', () {
+                _DrawerItem(Icons.gps_fixed_rounded, AppLocalizations.of(context)?.liveTracking ?? 'Live Tracking', () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/live-tracking');
                 }),
-                _DrawerItem(Icons.history_rounded, 'Vehicle History', () {
+                _DrawerItem(Icons.history_rounded, AppLocalizations.of(context)?.vehicleHistory ?? 'Vehicle History', () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/history');
                 }),
-                _DrawerItem(Icons.person_add_rounded, 'Add Driver', () {
+                _DrawerItem(Icons.person_add_rounded, AppLocalizations.of(context)?.addDriver ?? 'Add Driver', () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/add-driver');
                 }),
-                _DrawerItem(Icons.notifications_active_rounded, 'Alerts', () {
+                _DrawerItem(Icons.notifications_active_rounded, AppLocalizations.of(context)?.alerts ?? 'Alerts', () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/alert-management');
                 }),
-                _DrawerItem(Icons.description_rounded, 'Reports', () {
+                _DrawerItem(Icons.description_rounded, AppLocalizations.of(context)?.reports ?? 'Reports', () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, '/reports');
                 }),
@@ -622,26 +619,26 @@ class _DashboardScreenState extends State<DashboardScreen>
               fontSize: 12,
               color: Colors.white.withOpacity(0.6),
             ),
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.route_rounded),
-                activeIcon: Icon(Icons.route_rounded),
-                label: 'Routes',
+                icon: const Icon(Icons.route_rounded),
+                activeIcon: const Icon(Icons.route_rounded),
+                label: AppLocalizations.of(context)?.routes ?? 'Routes',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.my_location_rounded),
-                activeIcon: Icon(Icons.my_location_rounded),
-                label: 'Live',
+                icon: const Icon(Icons.my_location_rounded),
+                activeIcon: const Icon(Icons.my_location_rounded),
+                label: AppLocalizations.of(context)?.live ?? 'Live',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard_rounded),
-                activeIcon: Icon(Icons.dashboard_rounded),
-                label: 'Dashboard',
+                icon: const Icon(Icons.dashboard_rounded),
+                activeIcon: const Icon(Icons.dashboard_rounded),
+                label: AppLocalizations.of(context)?.dashboard ?? 'Dashboard',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.history_rounded),
-                activeIcon: Icon(Icons.history_rounded),
-                label: 'History Playback',
+                icon: const Icon(Icons.history_rounded),
+                activeIcon: const Icon(Icons.history_rounded),
+                label: AppLocalizations.of(context)?.historyPlayback ?? 'History Playback',
               ),
             ],
           ),
@@ -722,7 +719,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           ElevatedButton.icon(
             onPressed: _refreshDashboard,
             icon: const Icon(Icons.refresh),
-            label: const Text('Retry'),
+            label: Text(AppLocalizations.of(context)?.retry ?? 'Retry'),
             style: ElevatedButton.styleFrom(
               backgroundColor: colorScheme.primary,
               foregroundColor: colorScheme.onPrimary,
@@ -1071,14 +1068,14 @@ class _RealTimeMetricsCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            _buildMetricsGrid(),
+            _buildMetricsGrid(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMetricsGrid() {
+  Widget _buildMetricsGrid(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -1093,7 +1090,7 @@ class _RealTimeMetricsCard extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: _buildMetricCard(
-            'Total Trips',
+            AppLocalizations.of(context)?.totalTrips ?? 'Total Trips',
             '${data['totalTrips'] ?? 0}',
             data['tripsChange'] ?? 0.0,
             Icons.directions_car_outlined,
@@ -1341,7 +1338,7 @@ class _VehicleCard extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Total Vehicles',
+                      AppLocalizations.of(context)?.totalVehicles ?? 'Total Vehicles',
                       style: TextStyle(
                         fontSize: 16,
                         color: AppColors.neutral500,
@@ -1921,7 +1918,7 @@ class _DriverCard extends StatelessWidget {
             Column(
               children: [
                 _buildDriverItem(
-                  'Total Drivers',
+                  AppLocalizations.of(context)?.totalDrivers ?? 'Total Drivers',
                   '${data?['totalDrivers'] ?? 0}',
                   Icons.people_rounded,
                   const Color(0xFF8B5CF6),
@@ -1929,7 +1926,7 @@ class _DriverCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 _buildDriverItem(
-                  'Harsh Braking',
+                  AppLocalizations.of(context)?.harshBraking ?? 'Harsh Braking',
                   '${data?['harshBraking'] ?? 0}',
                   Icons.warning_rounded,
                   const Color(0xFFEF4444),
@@ -1937,7 +1934,7 @@ class _DriverCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 _buildDriverItem(
-                  'Sudden Turn',
+                  AppLocalizations.of(context)?.suddenTurn ?? 'Sudden Turn',
                   '${data?['suddenTurn'] ?? 0}',
                   Icons.turn_right_rounded,
                   const Color(0xFFF59E0B),
@@ -1945,7 +1942,7 @@ class _DriverCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 _buildDriverItem(
-                  'Overspeeding',
+                  AppLocalizations.of(context)?.overspeeding ?? 'Overspeeding',
                   '${data?['overspeeding'] ?? 0}',
                   Icons.speed_rounded,
                   const Color(0xFF06B6D4),
@@ -2094,7 +2091,7 @@ class _ServiceManagementCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
                 Text(
-                  'Service Management',
+                  AppLocalizations.of(context)?.serviceManagement ?? 'Service Management',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -2149,38 +2146,38 @@ class _ServiceManagementCard extends StatelessWidget {
                 ),
                 _buildServiceTile(
                   context,
-                  'Routes',
+                  AppLocalizations.of(context)?.routes ?? 'Routes',
                   Icons.route,
                   Colors.green,
                   () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Route Management coming soon!')),
+                    SnackBar(content: Text(AppLocalizations.of(context)?.routeManagementComingSoon ?? 'Route Management coming soon!')),
                   ),
                 ),
                 _buildServiceTile(
                   context,
-                  'Devices',
+                  AppLocalizations.of(context)?.devices ?? 'Devices',
                   Icons.device_hub,
                   Colors.orange,
                   () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Device Management coming soon!')),
+                    SnackBar(content: Text(AppLocalizations.of(context)?.deviceManagementComingSoon ?? 'Device Management coming soon!')),
                   ),
                 ),
                 _buildServiceTile(
                   context,
-                  'Notifications',
+                  AppLocalizations.of(context)?.notifications ?? 'Notifications',
                   Icons.notifications,
                   Colors.purple,
                   () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Notification Center coming soon!')),
+                    SnackBar(content: Text(AppLocalizations.of(context)?.notificationCenterComingSoon ?? 'Notification Center coming soon!')),
                   ),
                 ),
                 _buildServiceTile(
                   context,
-                  'Settings',
+                  AppLocalizations.of(context)?.settings ?? 'Settings',
                   Icons.settings,
                   Colors.grey,
                   () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Settings Management coming soon!')),
+                    SnackBar(content: Text(AppLocalizations.of(context)?.settingsManagementComingSoon ?? 'Settings Management coming soon!')),
                   ),
                 ),
               ],

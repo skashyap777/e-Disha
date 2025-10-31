@@ -1,0 +1,1297 @@
+{
+  "@@locale": "en",
+  "appTitle": "e-Disha",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "login": "Login",
+  "@login": {
+    "description": "Login button text"
+  },
+  
+  "mobileNumber": "Mobile Number",
+  "@mobileNumber": {
+    "description": "Mobile number input label"
+  },
+  
+  "password": "Password",
+  "@password": {
+    "description": "Password input label"
+  },
+  
+  "enterMobileNumber": "Enter your mobile number",
+  "@enterMobileNumber": {
+    "description": "Mobile number input hint"
+  },
+  
+  "enterPassword": "Enter your password",
+  "@enterPassword": {
+    "description": "Password input hint"
+  },
+  
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link text"
+  },
+  
+  "termsAndConditions": "Terms & Conditions",
+  "@termsAndConditions": {
+    "description": "Terms and conditions link text"
+  },
+  
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy policy link text"
+  },
+  
+  "welcomeBack": "Welcome Back!",
+  "@welcomeBack": {
+    "description": "Welcome message on login screen"
+  },
+  
+  "signInToContinue": "Sign in to continue to e-Disha",
+  "@signInToContinue": {
+    "description": "Sign in subtitle message"
+  },
+  
+  "pleaseEnterMobileNumber": "Please enter your mobile number",
+  "@pleaseEnterMobileNumber": {
+    "description": "Mobile number validation error"
+  },
+  
+  "mobileNumberMustBe10Digits": "Mobile number must be 10 digits",
+  "@mobileNumberMustBe10Digits": {
+    "description": "Mobile number length validation error"
+  },
+  
+  "pleaseEnterPassword": "Please enter your password",
+  "@pleaseEnterPassword": {
+    "description": "Password validation error"
+  },
+  
+  "passwordMustBeAtLeast6Characters": "Password must be at least 6 characters",
+  "@passwordMustBeAtLeast6Characters": {
+    "description": "Password length validation error"
+  },
+  
+  "loggingIn": "Logging in...",
+  "@loggingIn": {
+    "description": "Loading message during login"
+  },
+  
+  "loginFailed": "Login Failed",
+  "@loginFailed": {
+    "description": "Login failure dialog title"
+  },
+  
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  
+  "language": "Language",
+  "@language": {
+    "description": "Language setting label"
+  },
+  
+  "english": "English",
+  "@english": {
+    "description": "English language option"
+  },
+  
+  "hindi": "हिंदी",
+  "@hindi": {
+    "description": "Hindi language option"
+  },
+  
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Language selection dialog title"
+  },
+  
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "description": "Dashboard screen title"
+  },
+  
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings screen title"
+  },
+  
+  "appearance": "Appearance",
+  "@appearance": {
+    "description": "Appearance settings section"
+  },
+  
+  "darkMode": "Dark Mode",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications setting"
+  },
+  
+  "pushNotifications": "Push Notifications",
+  "@pushNotifications": {
+    "description": "Push notifications setting"
+  },
+  
+  "tracking": "Tracking",
+  "@tracking": {
+    "description": "Tracking settings section"
+  },
+  
+  "locationTracking": "Location Tracking",
+  "@locationTracking": {
+    "description": "Location tracking setting"
+  },
+  
+  "autoRefresh": "Auto Refresh",
+  "@autoRefresh": {
+    "description": "Auto refresh setting"
+  },
+  
+  "refreshInterval": "Refresh Interval",
+  "@refreshInterval": {
+    "description": "Refresh interval setting"
+  },
+  
+  "map": "Map",
+  "@map": {
+    "description": "Map settings section"
+  },
+  
+  "defaultZoomLevel": "Default Zoom Level",
+  "@defaultZoomLevel": {
+    "description": "Default zoom level setting"
+  },
+  
+  "appInfo": "App Info",
+  "@appInfo": {
+    "description": "App info section"
+  },
+  
+  "version": "Version",
+  "@version": {
+    "description": "App version label"
+  },
+  
+  "company": "Company",
+  "@company": {
+    "description": "Company name label"
+  },
+  
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button text"
+  },
+  
+  "confirmLogout": "Confirm Logout",
+  "@confirmLogout": {
+    "description": "Logout confirmation dialog title"
+  },
+  
+  "areYouSureLogout": "Are you sure you want to logout?",
+  "@areYouSureLogout": {
+    "description": "Logout confirmation message"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  
+  "byContinuingYouAgree": "By continuing, you agree to our",
+  "@byContinuingYouAgree": {
+    "description": "Footer text before terms and privacy links"
+  },
+  
+  "and": "and",
+  "@and": {
+    "description": "Conjunction word between terms and privacy policy"
+  },
+  
+  "mobileNumberMustBeAtLeast10Digits": "Mobile number must be at least 10 digits",
+  "@mobileNumberMustBeAtLeast10Digits": {
+    "description": "Validation error for mobile number minimum length"
+  },
+  
+  "mobileNumberMustBeAtMost15Digits": "Mobile number must be at most 15 digits",
+  "@mobileNumberMustBeAtMost15Digits": {
+    "description": "Validation error for mobile number maximum length"
+  },
+  
+  "pleaseEnterValidIndianMobileNumber": "Please enter a valid Indian mobile number",
+  "@pleaseEnterValidIndianMobileNumber": {
+    "description": "Validation error for invalid Indian mobile number format"
+  },
+  
+  "termsConditionsTitle": "Terms & Conditions",
+  "@termsConditionsTitle": {
+    "description": "Title for Terms and Conditions screen"
+  },
+  
+  "privacyPolicyTitle": "Privacy Policy",
+  "@privacyPolicyTitle": {
+    "description": "Title for Privacy Policy screen"
+  },
+  
+  "welcomeToApp": "Welcome to e-Disha. These terms and conditions outline the rules and regulations for the use of our application.",
+  "@welcomeToApp": {
+    "description": "Welcome message in Terms and Conditions"
+  },
+  
+  "acceptanceOfTerms": "Acceptance of Terms",
+  "@acceptanceOfTerms": {
+    "description": "Section title for acceptance of terms"
+  },
+  
+  "useOfApplication": "Use of Application",
+  "@useOfApplication": {
+    "description": "Section title for use of application"
+  },
+  
+  "userResponsibilities": "User Responsibilities",
+  "@userResponsibilities": {
+    "description": "Section title for user responsibilities"
+  },
+  
+  "privacyAndDataProtection": "Privacy and Data Protection",
+  "@privacyAndDataProtection": {
+    "description": "Section title for privacy and data protection"
+  },
+  
+  "contactUs": "Contact Us",
+  "@contactUs": {
+    "description": "Contact us section title"
+  },
+  
+  "backButton": "Back",
+  "@backButton": {
+    "description": "Back button text"
+  },
+  
+  "lastUpdated": "Last updated",
+  "@lastUpdated": {
+    "description": "Last updated text"
+  },
+  
+  "pleaseReadTermsCarefully": "Please read these terms and conditions carefully before using the e-Disha application.",
+  "@pleaseReadTermsCarefully": {
+    "description": "Terms introduction text"
+  },
+  
+  "acceptanceOfTermsTitle": "1. Acceptance of Terms",
+  "@acceptanceOfTermsTitle": {
+    "description": "Section 1 title"
+  },
+  
+  "acceptanceOfTermsContent": "By accessing and using the e-Disha application (\"App\"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.",
+  "@acceptanceOfTermsContent": {
+    "description": "Section 1 content"
+  },
+  
+  "useLicenseTitle": "2. Use License",
+  "@useLicenseTitle": {
+    "description": "Section 2 title"
+  },
+  
+  "useLicenseContent": "Permission is granted to temporarily download one copy of e-Disha per device for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:\\n\\n• Modify or copy the materials\\n• Use the materials for any commercial purpose or for any public display\\n• Attempt to reverse engineer any software contained in the App\\n• Remove any copyright or other proprietary notations",
+  "@useLicenseContent": {
+    "description": "Section 2 content"
+  },
+  
+  "privacyPolicyTermsTitle": "3. Privacy Policy",
+  "@privacyPolicyTermsTitle": {
+    "description": "Section 3 title"
+  },
+  
+  "privacyPolicyTermsContent": "Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your information when you use our service. By using our service, you agree to the collection and use of information in accordance with our Privacy Policy.",
+  "@privacyPolicyTermsContent": {
+    "description": "Section 3 content"
+  },
+  
+  "userAccountTitle": "4. User Account",
+  "@userAccountTitle": {
+    "description": "Section 4 title"
+  },
+  
+  "userAccountContent": "When you create an account with us, you must provide information that is accurate, complete, and current at all times. You are responsible for safeguarding the password and for all activities that occur under your account.",
+  "@userAccountContent": {
+    "description": "Section 4 content"
+  },
+  
+  "thankYouForUsing": "Thank you for using e-Disha",
+  "@thankYouForUsing": {
+    "description": "Footer thank you message"
+  },
+  
+  "byContinuingYouAcknowledge": "By continuing to use our application, you acknowledge that you have read, understood, and agree to these terms and conditions.",
+  "@byContinuingYouAcknowledge": {
+    "description": "Footer acknowledgment text"
+  },
+  
+  "vehicleTrackingTitle": "5. Vehicle Tracking Services",
+  "@vehicleTrackingTitle": {
+    "description": "Vehicle tracking section title"
+  },
+  
+  "vehicleTrackingContent": "e-Disha provides GPS tracking and fleet management services. You understand that:\\n\\n• Location data accuracy depends on GPS signal availability\\n• Service may be temporarily unavailable due to technical issues\\n• You are responsible for ensuring proper device installation\\n• Data transmission requires active mobile/internet connectivity",
+  "@vehicleTrackingContent": {
+    "description": "Vehicle tracking section content"
+  },
+  
+  "contactInformationTitle": "13. Contact Information",
+  "@contactInformationTitle": {
+    "description": "Contact information section title"
+  },
+  
+  "contactInformationContent": "If you have any questions about these Terms and Conditions, please contact us at:\\n\\nEmail: support@edisha.com\\nPhone: +91-XXXXX-XXXXX\\nAddress: [Company Address]",
+  "@contactInformationContent": {
+    "description": "Contact information section content"
+  },
+  
+  "informationWeCollectTitle": "1. Information We Collect",
+  "@informationWeCollectTitle": {
+    "description": "Privacy policy section 1 title"
+  },
+  
+  "informationWeCollectContent": "We collect several types of information from and about users of our App:\\n\\n• Personal Information: Name, phone number, email address\\n• Vehicle Information: Vehicle details, registration number, device ID\\n• Location Data: GPS coordinates, routes, speed, and movement patterns\\n• Usage Data: App interactions, features used, session duration\\n• Device Information: Device type, operating system, unique identifiers",
+  "@informationWeCollectContent": {
+    "description": "Privacy policy section 1 content"
+  },
+  
+  "howWeUseInfoTitle": "2. How We Use Your Information",
+  "@howWeUseInfoTitle": {
+    "description": "Privacy policy section 2 title"
+  },
+  
+  "howWeUseInfoContent": "We use the information we collect for various purposes:\\n\\n• Provide and maintain our GPS tracking services\\n• Process transactions and send related information\\n• Send technical notices, updates, and support messages\\n• Respond to your comments, questions, and requests\\n• Monitor and analyze trends, usage, and activities\\n• Improve our services and develop new features\\n• Ensure security and prevent fraud",
+  "@howWeUseInfoContent": {
+    "description": "Privacy policy section 2 content"
+  },
+  
+  "yourPrivacyMatters": "Your Privacy Matters",
+  "@yourPrivacyMatters": {
+    "description": "Privacy policy footer title"
+  },
+  
+  "privacyCommitment": "We are committed to protecting your privacy and ensuring the security of your personal information while providing the best possible service.",
+  "@privacyCommitment": {
+    "description": "Privacy policy footer commitment text"
+  },
+  
+  "successfullyLoggedOut": "Successfully logged out",
+  "@successfullyLoggedOut": {
+    "description": "Success message when user logs out"
+  },
+  
+  "logoutFailed": "Logout failed",
+  "@logoutFailed": {
+    "description": "Error message when logout fails"
+  },
+  
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  
+  "routeManagementComingSoon": "Route Management coming soon!",
+  "@routeManagementComingSoon": {
+    "description": "Coming soon message for route management"
+  },
+  
+  "deviceManagementComingSoon": "Device Management coming soon!",
+  "@deviceManagementComingSoon": {
+    "description": "Coming soon message for device management"
+  },
+  
+  "notificationCenterComingSoon": "Notification Center coming soon!",
+  "@notificationCenterComingSoon": {
+    "description": "Coming soon message for notification center"
+  },
+  
+  "settingsManagementComingSoon": "Settings Management coming soon!",
+  "@settingsManagementComingSoon": {
+    "description": "Coming soon message for settings management"
+  },
+  
+  "historyPlaybackCompleted": "History playback completed",
+  "@historyPlaybackCompleted": {
+    "description": "Message when history playback is completed"
+  },
+  
+  "dataCollectionTitle": "6. Data Collection and Usage",
+  "@dataCollectionTitle": {
+    "description": "Data collection section title"
+  },
+  
+  "dataCollectionContent": "We collect and process data to provide our services effectively:\\n\\n• Location data for real-time tracking and route optimization\\n• Vehicle performance data for maintenance alerts\\n• User interaction data to improve app functionality\\n• All data collection complies with applicable privacy laws\\n• You can control data sharing through app settings",
+  "@dataCollectionContent": {
+    "description": "Data collection section content"
+  },
+  
+  "serviceLimitationsTitle": "7. Service Limitations",
+  "@serviceLimitationsTitle": {
+    "description": "Service limitations section title"
+  },
+  
+  "serviceLimitationsContent": "Our services are provided 'as is' and may have limitations:\\n\\n• GPS accuracy may vary based on environmental conditions\\n• Service availability depends on network connectivity\\n• We do not guarantee uninterrupted service\\n• Features may be updated or modified without prior notice\\n• Some features may require additional subscriptions",
+  "@serviceLimitationsContent": {
+    "description": "Service limitations section content"
+  },
+  
+  "userResponsibilitiesTitle": "8. User Responsibilities",
+  "@userResponsibilitiesTitle": {
+    "description": "User responsibilities section title"
+  },
+  
+  "userResponsibilitiesContent": "As a user of e-Disha, you agree to:\\n\\n• Provide accurate and up-to-date information\\n• Use the service only for lawful purposes\\n• Maintain the security of your account credentials\\n• Report any unauthorized use of your account\\n• Comply with all applicable laws and regulations\\n• Respect the privacy and rights of other users",
+  "@userResponsibilitiesContent": {
+    "description": "User responsibilities section content"
+  },
+  
+  "prohibitedUsesTitle": "9. Prohibited Uses",
+  "@prohibitedUsesTitle": {
+    "description": "Prohibited uses section title"
+  },
+  
+  "prohibitedUsesContent": "You may not use our service for:\\n\\n• Any unlawful purpose or to solicit others to unlawful acts\\n• Violating any international, federal, provincial, or state regulations, rules, laws, or local ordinances\\n• Infringing upon or violating our intellectual property rights or the intellectual property rights of others\\n• Harassing, abusing, insulting, harming, defaming, slandering, disparaging, intimidating, or discriminating\\n• Submitting false or misleading information",
+  "@prohibitedUsesContent": {
+    "description": "Prohibited uses section content"
+  },
+  
+  "terminationTitle": "10. Termination",
+  "@terminationTitle": {
+    "description": "Termination section title"
+  },
+  
+  "terminationContent": "We may terminate or suspend your account and bar access to the service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.",
+  "@terminationContent": {
+    "description": "Termination section content"
+  },
+  
+  "limitationOfLiabilityTitle": "11. Limitation of Liability",
+  "@limitationOfLiabilityTitle": {
+    "description": "Limitation of liability section title"
+  },
+  
+  "limitationOfLiabilityContent": "In no event shall e-Disha, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the service.",
+  "@limitationOfLiabilityContent": {
+    "description": "Limitation of liability section content"
+  },
+  
+  "updatesToTermsTitle": "12. Updates to Terms",
+  "@updatesToTermsTitle": {
+    "description": "Updates to terms section title"
+  },
+  
+  "updatesToTermsContent": "We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.",
+  "@updatesToTermsContent": {
+    "description": "Updates to terms section content"
+  },
+  
+  "informationSharingTitle": "3. Information Sharing",
+  "@informationSharingTitle": {
+    "description": "Privacy policy information sharing section title"
+  },
+  
+  "informationSharingContent": "We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy:\\n\\n• Service Providers: We may share information with trusted third parties who assist us in operating our app\\n• Legal Requirements: We may disclose information when required by law or to protect our rights\\n• Business Transfers: Information may be transferred in connection with a merger or acquisition",
+  "@informationSharingContent": {
+    "description": "Privacy policy information sharing section content"
+  },
+  
+  "dataSecurityTitle": "4. Data Security",
+  "@dataSecurityTitle": {
+    "description": "Privacy policy data security section title"
+  },
+  
+  "dataSecurityContent": "We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction:\\n\\n• Encryption of sensitive data during transmission\\n• Regular security assessments and updates\\n• Limited access to personal information\\n• Secure data storage practices",
+  "@dataSecurityContent": {
+    "description": "Privacy policy data security section content"
+  },
+  
+  "locationDataTitle": "5. Location Data",
+  "@locationDataTitle": {
+    "description": "Privacy policy location data section title"
+  },
+  
+  "locationDataContent": "Our app collects and uses location data to provide GPS tracking services:\\n\\n• Real-time location tracking for fleet management\\n• Route optimization and navigation assistance\\n• Geofencing and alert notifications\\n• Historical route and location analysis\\n\\nYou can disable location services through your device settings, but this may limit app functionality.",
+  "@locationDataContent": {
+    "description": "Privacy policy location data section content"
+  },
+  
+  "dataRetentionTitle": "6. Data Retention",
+  "@dataRetentionTitle": {
+    "description": "Privacy policy data retention section title"
+  },
+  
+  "dataRetentionContent": "We retain your personal information for as long as necessary to provide our services and comply with legal obligations:\\n\\n• Account information: Retained while your account is active\\n• Location data: Stored for up to 2 years for historical analysis\\n• Usage data: Retained for up to 1 year for service improvement\\n• Legal compliance: Some data may be retained longer as required by law",
+  "@dataRetentionContent": {
+    "description": "Privacy policy data retention section content"
+  },
+  
+  "yourRightsTitle": "7. Your Rights",
+  "@yourRightsTitle": {
+    "description": "Privacy policy your rights section title"
+  },
+  
+  "yourRightsContent": "You have certain rights regarding your personal information:\\n\\n• Access: Request access to your personal data\\n• Correction: Request correction of inaccurate information\\n• Deletion: Request deletion of your personal data\\n• Portability: Request transfer of your data to another service\\n• Objection: Object to certain processing of your data\\n\\nTo exercise these rights, please contact us using the information provided below.",
+  "@yourRightsContent": {
+    "description": "Privacy policy your rights section content"
+  },
+  
+  "totalDrivers": "Total Drivers",
+  "@totalDrivers": {
+    "description": "Total drivers label"
+  },
+  
+  "active": "Active",
+  "@active": {
+    "description": "Active status label"
+  },
+  
+  "onDuty": "On Duty",
+  "@onDuty": {
+    "description": "On duty status label"
+  },
+  
+  "harshBraking": "Harsh Braking",
+  "@harshBraking": {
+    "description": "Harsh braking alert label"
+  },
+  
+  "overspeeding": "Overspeeding",
+  "@overspeeding": {
+    "description": "Overspeeding alert label"
+  },
+  
+  "suddenTurn": "Sudden Turn",
+  "@suddenTurn": {
+    "description": "Sudden turn alert label"
+  },
+  
+  "serviceManagement": "Service Management",
+  "@serviceManagement": {
+    "description": "Service management section title"
+  },
+  
+  "routes": "Routes",
+  "@routes": {
+    "description": "Routes navigation label"
+  },
+  
+  "devices": "Devices",
+  "@devices": {
+    "description": "Devices management label"
+  },
+  
+  "manageRoutes": "Manage Routes",
+  "@manageRoutes": {
+    "description": "Manage routes subtitle"
+  },
+  
+  "live": "Live",
+  "@live": {
+    "description": "Live tracking navigation label"
+  },
+  
+  "appSettings": "App Settings",
+  "@appSettings": {
+    "description": "App settings subtitle"
+  },
+  
+
+  
+  "total": "Total",
+  "@total": {
+    "description": "Total count label"
+  },
+  
+  "activated": "Activated",
+  "@activated": {
+    "description": "Activated status label"
+  },
+  
+  "inactive7Days": "Inactive 7D",
+  "@inactive7Days": {
+    "description": "Inactive 7 days label"
+  },
+  
+  "inactive30Days": "Inactive 30D",
+  "@inactive30Days": {
+    "description": "Inactive 30 days label"
+  },
+  
+  "alerts": "Alerts",
+  "@alerts": {
+    "description": "Alerts section label"
+  },
+  
+  "activeCount": "Active",
+  "@activeCount": {
+    "description": "Active count suffix"
+  },
+  
+  "notificationsCount": "Notifications",
+  "@notificationsCount": {
+    "description": "Notifications count suffix"
+  },
+  
+  "totalTrips": "Total Trips",
+  "@totalTrips": {
+    "description": "Total trips label"
+  },
+  
+  "totalVehicles": "Total Vehicles",
+  "@totalVehicles": {
+    "description": "Total vehicles label"
+  },
+  
+  "driverBehaviour": "Driver Behaviour",
+  "@driverBehaviour": {
+    "description": "Driver behaviour section title"
+  },
+  
+  "vehicleStatus": "Vehicle Status",
+  "@vehicleStatus": {
+    "description": "Vehicle status section title"
+  },
+  
+  "alertOverview": "Alert Overview",
+  "@alertOverview": {
+    "description": "Alert overview section title"
+  },
+  
+  "moving": "Moving",
+  "@moving": {
+    "description": "Moving vehicles status"
+  },
+  
+  "idle": "Idle",
+  "@idle": {
+    "description": "Idle vehicles status"
+  },
+  
+  "offline": "Offline",
+  "@offline": {
+    "description": "Offline vehicles status"
+  },
+  
+  "historyPlayback": "History Playback",
+  "@historyPlayback": {
+    "description": "History playback navigation label"
+  },
+  
+  "critical": "Critical",
+  "@critical": {
+    "description": "Critical alerts status"
+  },
+  
+  "warning": "Warning",
+  "@warning": {
+    "description": "Warning alerts status"
+  },
+  
+  "routeFixing": "Route Fixing",
+  "@routeFixing": {
+    "description": "Route fixing menu item"
+  },
+  
+  "liveTracking": "Live Tracking",
+  "@liveTracking": {
+    "description": "Live tracking menu item"
+  },
+  
+  "vehicleHistory": "Vehicle History",
+  "@vehicleHistory": {
+    "description": "Vehicle history menu item"
+  },
+  
+  "addDriver": "Add Driver",
+  "@addDriver": {
+    "description": "Add driver menu item"
+  },
+  
+  "reports": "Reports",
+  "@reports": {
+    "description": "Reports menu item"
+  },
+  
+  "today": "Today",
+  "@today": {
+    "description": "Today label for alerts"
+  },
+  
+  "liveTrackingTitle": "Live Tracking",
+  "@liveTrackingTitle": {
+    "description": "Live tracking screen title"
+  },
+  
+  "historyPlaybackTitle": "History Playback",
+  "@historyPlaybackTitle": {
+    "description": "History playback screen title"
+  },
+  
+  "routeFixingTitle": "Route Fixing",
+  "@routeFixingTitle": {
+    "description": "Route fixing screen title"
+  },
+  
+  "selectVehicleType": "Select Vehicle Type",
+  "@selectVehicleType": {
+    "description": "Select vehicle type label"
+  },
+  
+  "updateInterval": "Update Interval",
+  "@updateInterval": {
+    "description": "Update interval setting label"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  
+  "yellowCar": "Yellow Car",
+  "@yellowCar": {
+    "description": "Yellow car vehicle type"
+  },
+  
+  "blueCar": "Blue Car",
+  "@blueCar": {
+    "description": "Blue car vehicle type"
+  },
+  
+  "brownTruck": "Brown Truck",
+  "@brownTruck": {
+    "description": "Brown truck vehicle type"
+  },
+  
+  "bike": "Bike",
+  "@bike": {
+    "description": "Bike vehicle type"
+  },
+  
+  "bus": "Bus",
+  "@bus": {
+    "description": "Bus vehicle type"
+  },
+  
+  "vehicleType": "Vehicle Type",
+  "@vehicleType": {
+    "description": "Vehicle type tooltip"
+  },
+  
+  "updateSettings": "Update Settings",
+  "@updateSettings": {
+    "description": "Update settings tooltip"
+  },
+  
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh button tooltip"
+  },
+  
+  "showAllVehicles": "Show All Vehicles",
+  "@showAllVehicles": {
+    "description": "Show all vehicles tooltip"
+  },
+  
+  "errorLoadingMap": "Error Loading Map",
+  "@errorLoadingMap": {
+    "description": "Error loading map message"
+  },
+  
+  "unknownError": "Unknown error occurred",
+  "@unknownError": {
+    "description": "Unknown error message"
+  },
+  
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  
+  "mapFailedToLoad": "Map Failed to Load",
+  "@mapFailedToLoad": {
+    "description": "Map failed to load message"
+  },
+  
+  "noVehiclesAvailable": "No vehicles available for history playback",
+  "@noVehiclesAvailable": {
+    "description": "No vehicles available message"
+  },
+  
+  "loadHistory": "Load History",
+  "@loadHistory": {
+    "description": "Load history button text"
+  },
+  
+  "yourLocation": "Your Location",
+  "@yourLocation": {
+    "description": "Your location marker title"
+  },
+  
+  "currentPosition": "Current position",
+  "@currentPosition": {
+    "description": "Current position marker snippet"
+  },
+  
+  "justNow": "Just now",
+  "@justNow": {
+    "description": "Just now time indicator"
+  },
+  
+  "minutesAgo": "{minutes}m ago",
+  "@minutesAgo": {
+    "description": "Minutes ago time indicator",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "hoursAgo": "{hours}h ago",
+  "@hoursAgo": {
+    "description": "Hours ago time indicator",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "startPoint": "Start Point",
+  "@startPoint": {
+    "description": "Start point marker title"
+  },
+  
+  "endPoint": "End Point",
+  "@endPoint": {
+    "description": "End point marker title"
+  },
+  
+  "waypoint": "Waypoint {number}",
+  "@waypoint": {
+    "description": "Waypoint marker title",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "tapToRemove": "Tap to remove",
+  "@tapToRemove": {
+    "description": "Tap to remove marker snippet"
+  },
+  
+  "addRoutePoints": "Please add route points and select a vehicle",
+  "@addRoutePoints": {
+    "description": "Add route points message"
+  },
+  
+  "editRoute": "Edit Route",
+  "@editRoute": {
+    "description": "Edit route title"
+  },
+  
+  "createNewRoute": "Create New Route",
+  "@createNewRoute": {
+    "description": "Create new route title"
+  },
+  
+  "tapMapToAddPoints": "Tap map to add points",
+  "@tapMapToAddPoints": {
+    "description": "Tap map instruction"
+  },
+  
+  "waypointsCount": "{count} waypoint{plural}",
+  "@waypointsCount": {
+    "description": "Waypoints count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "clear": "Clear",
+  "@clear": {
+    "description": "Clear button text"
+  },
+  
+  "selectVehicle": "Select Vehicle",
+  "@selectVehicle": {
+    "description": "Select vehicle label"
+  },
+  
+  "createYourRoute": "Create Your Route",
+  "@createYourRoute": {
+    "description": "Create your route title"
+  },
+  
+  "routeWaypoints": "Route Waypoints",
+  "@routeWaypoints": {
+    "description": "Route waypoints label"
+  },
+  
+  "noHistoryDataFound": "No history data found for the selected period",
+  "@noHistoryDataFound": {
+    "description": "No history data found message"
+  },
+  
+  "playbackCompleted": "Playback completed",
+  "@playbackCompleted": {
+    "description": "Playback completed message"
+  },
+  
+  "failedToLoadHistory": "Failed to Load History",
+  "@failedToLoadHistory": {
+    "description": "Failed to load history title"
+  },
+  
+  "unexpectedError": "An unexpected error occurred",
+  "@unexpectedError": {
+    "description": "Unexpected error message"
+  },
+  
+  "goBack": "Go Back",
+  "@goBack": {
+    "description": "Go back button text"
+  },
+  
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Try again button text"
+  },
+  
+  "reset": "Reset",
+  "@reset": {
+    "description": "Reset button text"
+  },
+  
+  "pause": "Pause",
+  "@pause": {
+    "description": "Pause button text"
+  },
+  
+  "play": "Play",
+  "@play": {
+    "description": "Play button text"
+  },
+  
+  "time": "Time",
+  "@time": {
+    "description": "Time label"
+  },
+  
+  "speed": "Speed",
+  "@speed": {
+    "description": "Speed label"
+  },
+  
+  "location": "Location",
+  "@location": {
+    "description": "Location label"
+  },
+  
+  "vehicleHistoryTitle": "Vehicle History",
+  "@vehicleHistoryTitle": {
+    "description": "Vehicle history screen title"
+  },
+  
+  "trackYourFleet": "Track your fleet movements",
+  "@trackYourFleet": {
+    "description": "Vehicle history subtitle"
+  },
+  
+  "all": "All",
+  "@all": {
+    "description": "All filter option"
+  },
+  
+  "inactive": "Inactive",
+  "@inactive": {
+    "description": "Inactive filter option"
+  },
+  
+  "tracked": "Tracked",
+  "@tracked": {
+    "description": "Tracked vehicles label"
+  },
+  
+  "pleaseWait": "Please wait while we fetch your data",
+  "@pleaseWait": {
+    "description": "Loading message"
+  },
+  
+  "failedToLoadVehicles": "Failed to Load Vehicles",
+  "@failedToLoadVehicles": {
+    "description": "Failed to load vehicles title"
+  },
+  
+  "noVehiclesFound": "No Vehicles Found",
+  "@noVehiclesFound": {
+    "description": "No vehicles found title"
+  },
+  
+  "adjustSearchFilters": "Try adjusting your search filters",
+  "@adjustSearchFilters": {
+    "description": "Adjust search filters message"
+  },
+  
+  "noVehiclesRegistered": "No vehicles are registered in the system",
+  "@noVehiclesRegistered": {
+    "description": "No vehicles registered message"
+  },
+  
+  "addDriverTitle": "Add Driver",
+  "@addDriverTitle": {
+    "description": "Add driver screen title"
+  },
+  
+  "alertManagementTitle": "Alert Management",
+  "@alertManagementTitle": {
+    "description": "Alert management screen title"
+  },
+  
+  "driverManagementTitle": "Driver Management",
+  "@driverManagementTitle": {
+    "description": "Driver management screen title"
+  },
+  
+  "searchDrivers": "Search drivers...",
+  "@searchDrivers": {
+    "description": "Search drivers placeholder text"
+  },
+  
+  "loadingDrivers": "Loading drivers...",
+  "@loadingDrivers": {
+    "description": "Loading drivers message"
+  },
+  
+  "noDriversFound": "No drivers found",
+  "@noDriversFound": {
+    "description": "No drivers found message"
+  },
+  
+  "addDriver": "Add Driver",
+  "@addDriver": {
+    "description": "Add driver button text"
+  },
+  
+  "addNewDriver": "Add New Driver",
+  "@addNewDriver": {
+    "description": "Add new driver dialog title"
+  },
+  
+  "tapToAddPhoto": "Tap to add photo",
+  "@tapToAddPhoto": {
+    "description": "Tap to add photo instruction"
+  },
+  
+  "cameraOrGallery": "Camera or Gallery",
+  "@cameraOrGallery": {
+    "description": "Camera or gallery option text"
+  },
+  
+  "driverName": "Driver Name",
+  "@driverName": {
+    "description": "Driver name field label"
+  },
+  
+  "licenseNumber": "License Number",
+  "@licenseNumber": {
+    "description": "License number field label"
+  },
+  
+  "phoneNumber": "Phone Number",
+  "@phoneNumber": {
+    "description": "Phone number field label"
+  },
+  
+  "selectVehicleDevice": "Select Vehicle/Device",
+  "@selectVehicleDevice": {
+    "description": "Select vehicle/device dropdown label"
+  },
+  
+  "pleaseEnterDriverName": "Please enter driver name",
+  "@pleaseEnterDriverName": {
+    "description": "Driver name validation error"
+  },
+  
+  "pleaseEnterLicenseNumber": "Please enter license number",
+  "@pleaseEnterLicenseNumber": {
+    "description": "License number validation error"
+  },
+  
+  "pleaseEnterPhoneNumber": "Please enter phone number",
+  "@pleaseEnterPhoneNumber": {
+    "description": "Phone number validation error"
+  },
+  
+  "pleaseEnterValidPhoneNumber": "Please enter a valid phone number",
+  "@pleaseEnterValidPhoneNumber": {
+    "description": "Valid phone number validation error"
+  },
+  
+  "pleaseSelectDevice": "Please select a device",
+  "@pleaseSelectDevice": {
+    "description": "Device selection validation error"
+  },
+  
+  "noDevicesFound": "No devices found. Please add a device first.",
+  "@noDevicesFound": {
+    "description": "No devices found message"
+  },
+  
+  "license": "License",
+  "@license": {
+    "description": "License label"
+  },
+  
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone label"
+  },
+  
+  "selectDateRange": "Select Date Range",
+  "@selectDateRange": {
+    "description": "Select date range label"
+  },
+  
+  "startDate": "Start Date",
+  "@startDate": {
+    "description": "Start date label"
+  },
+  
+  "endDate": "End Date",
+  "@endDate": {
+    "description": "End date label"
+  },
+  
+  "driverManagementTitle": "Driver Management",
+  "@driverManagementTitle": {
+    "description": "Driver management screen title"
+  },
+  
+  "searchDrivers": "Search drivers...",
+  "@searchDrivers": {
+    "description": "Search drivers placeholder text"
+  },
+  
+  "loadingDrivers": "Loading drivers...",
+  "@loadingDrivers": {
+    "description": "Loading drivers message"
+  },
+  
+  "noDriversFound": "No drivers found",
+  "@noDriversFound": {
+    "description": "No drivers found message"
+  },
+  
+  "addNewDriver": "Add New Driver",
+  "@addNewDriver": {
+    "description": "Add new driver dialog title"
+  },
+  
+  "tapToAddPhoto": "Tap to add photo",
+  "@tapToAddPhoto": {
+    "description": "Tap to add photo instruction"
+  },
+  
+  "cameraOrGallery": "Camera or Gallery",
+  "@cameraOrGallery": {
+    "description": "Camera or gallery option text"
+  },
+  
+  "driverName": "Driver Name",
+  "@driverName": {
+    "description": "Driver name field label"
+  },
+  
+  "licenseNumber": "License Number",
+  "@licenseNumber": {
+    "description": "License number field label"
+  },
+  
+  "phoneNumber": "Phone Number",
+  "@phoneNumber": {
+    "description": "Phone number field label"
+  },
+  
+  "selectVehicleDevice": "Select Vehicle/Device",
+  "@selectVehicleDevice": {
+    "description": "Select vehicle/device dropdown label"
+  },
+  
+  "addDriver": "Add Driver",
+  "@addDriver": {
+    "description": "Add driver button text"
+  },
+  
+  "activeStatus": "ACTIVE",
+  "@activeStatus": {
+    "description": "Active status badge text"
+  },
+  
+  "pleaseEnterDriverName": "Please enter driver name",
+  "@pleaseEnterDriverName": {
+    "description": "Driver name validation message"
+  },
+  
+  "pleaseEnterLicenseNumber": "Please enter license number",
+  "@pleaseEnterLicenseNumber": {
+    "description": "License number validation message"
+  },
+  
+  "pleaseEnterPhoneNumber": "Please enter phone number",
+  "@pleaseEnterPhoneNumber": {
+    "description": "Phone number validation message"
+  },
+  
+  "pleaseEnterValidPhoneNumber": "Please enter a valid phone number",
+  "@pleaseEnterValidPhoneNumber": {
+    "description": "Valid phone number validation message"
+  },
+  
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+  
+  "useCameraToCapture": "Use camera to capture photo",
+  "@useCameraToCapture": {
+    "description": "Camera option description"
+  },
+  
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": {
+    "description": "Gallery option title"
+  },
+  
+  "selectFromExistingPhotos": "Select from existing photos",
+  "@selectFromExistingPhotos": {
+    "description": "Gallery option description"
+  },
+  
+  "selectStartDate": "Select Start Date",
+  "@selectStartDate": {
+    "description": "Select start date dialog title"
+  },
+  
+  "selectEndDate": "Select End Date",
+  "@selectEndDate": {
+    "description": "Select end date dialog title"
+  }
+}

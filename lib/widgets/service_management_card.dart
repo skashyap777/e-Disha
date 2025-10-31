@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:edisha/generated/app_localizations.dart';
 import 'package:edisha/services/device_service.dart';
 import 'package:edisha/services/alert_api_service.dart';
 import 'package:edisha/services/notification_api_service.dart';
 import 'package:edisha/core/service_locator.dart';
+import 'package:edisha/providers/language_provider.dart';
+import 'package:edisha/providers/theme_provider.dart';
 
 /// Enhanced Service Management Card with API integration
 class ServiceManagementCard extends StatefulWidget {
@@ -133,10 +137,10 @@ class _ServiceManagementCardState extends State<ServiceManagementCard> {
           ),
         ),
         const SizedBox(width: 16),
-        const Expanded(
+        Expanded(
           child: Text(
-            'Service Management',
-            style: TextStyle(
+            AppLocalizations.of(context)?.serviceManagement ?? 'Service Management',
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -187,31 +191,31 @@ class _ServiceManagementCardState extends State<ServiceManagementCard> {
   List<Widget> _buildServiceItems(ThemeData theme) {
     final serviceItems = [
       {
-        'title': 'Routes',
-        'subtitle': 'Manage Routes',
+        'title': AppLocalizations.of(context)?.routes ?? 'Routes',
+        'subtitle': AppLocalizations.of(context)?.manageRoutes ?? 'Manage Routes',
         'icon': Icons.route,
         'color': Colors.blue,
         'onTap': () => _navigateToRoutes(),
       },
       {
-        'title': 'Devices',
-        'subtitle': '$_activeDeviceCount Active',
+        'title': AppLocalizations.of(context)?.devices ?? 'Devices',
+        'subtitle': '$_activeDeviceCount ${AppLocalizations.of(context)?.activeCount ?? 'Active'}',
         'icon': Icons.devices,
         'color': Colors.green,
         'count': _activeDeviceCount,
         'onTap': () => _navigateToDevices(),
       },
       {
-        'title': 'Notifications',
-        'subtitle': '$_totalNotifications Notifications',
+        'title': AppLocalizations.of(context)?.notifications ?? 'Notifications',
+        'subtitle': '$_totalNotifications ${AppLocalizations.of(context)?.notificationsCount ?? 'Notifications'}',
         'icon': Icons.notifications,
         'color': Colors.orange,
         'count': _totalNotifications,
         'onTap': () => _navigateToNotifications(),
       },
       {
-        'title': 'Settings',
-        'subtitle': 'App Settings',
+        'title': AppLocalizations.of(context)?.settings ?? 'Settings',
+        'subtitle': AppLocalizations.of(context)?.appSettings ?? 'App Settings',
         'icon': Icons.settings,
         'color': Colors.purple,
         'onTap': () => _navigateToSettings(),
@@ -515,13 +519,15 @@ class _AppSettingsDialogState extends State<AppSettingsDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: const Row(
+      title: Row(
         children: [
-          Icon(Icons.settings, color: Colors.purple),
-          SizedBox(width: 12),
-          Text('App Settings'),
+          const Icon(Icons.settings, color: Colors.purple),
+          const SizedBox(width: 12),
+          Text(l10n?.settings ?? 'Settings'),
         ],
       ),
       content: SizedBox(
@@ -531,30 +537,40 @@ class _AppSettingsDialogState extends State<AppSettingsDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildSettingSection('Notifications', [
+              // Language Settings Section
+              _buildSettingSection(l10n?.language ?? 'Language', [
+                _buildLanguageSetting(context),
+              ]),
+              
+              // Appearance Settings Section
+              _buildSettingSection(l10n?.appearance ?? 'Appearance', [
+                _buildDarkModeSetting(context),
+              ]),
+              
+              _buildSettingSection(l10n?.notifications ?? 'Notifications', [
                 _buildSwitchSetting(
-                  'Push Notifications',
+                  l10n?.pushNotifications ?? 'Push Notifications',
                   'Receive alerts and updates',
                   _notifications,
                   (value) => setState(() => _notifications = value),
                 ),
               ]),
               
-              _buildSettingSection('Tracking', [
+              _buildSettingSection(l10n?.tracking ?? 'Tracking', [
                 _buildSwitchSetting(
-                  'Location Tracking',
+                  l10n?.locationTracking ?? 'Location Tracking',
                   'Allow GPS location access',
                   _locationTracking,
                   (value) => setState(() => _locationTracking = value),
                 ),
                 _buildSwitchSetting(
-                  'Auto Refresh',
+                  l10n?.autoRefresh ?? 'Auto Refresh',
                   'Automatically refresh data',
                   _autoRefresh,
                   (value) => setState(() => _autoRefresh = value),
                 ),
                 _buildSliderSetting(
-                  'Refresh Interval',
+                  l10n?.refreshInterval ?? 'Refresh Interval',
                   '${_refreshInterval.round()}s',
                   _refreshInterval,
                   10.0,
@@ -563,9 +579,9 @@ class _AppSettingsDialogState extends State<AppSettingsDialog> {
                 ),
               ]),
               
-              _buildSettingSection('Map', [
+              _buildSettingSection(l10n?.map ?? 'Map', [
                 _buildSliderSetting(
-                  'Default Zoom Level',
+                  l10n?.defaultZoomLevel ?? 'Default Zoom Level',
                   _mapZoom.toStringAsFixed(1),
                   _mapZoom,
                   10.0,
@@ -577,40 +593,42 @@ class _AppSettingsDialogState extends State<AppSettingsDialog> {
               const SizedBox(height: 20),
               
               // App Info
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+              _buildSettingSection(l10n?.appInfo ?? 'App Info', [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        l10n?.appTitle ?? 'e-Disha',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        '${l10n?.version ?? 'Version'} 1.0.0',
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        '${l10n?.company ?? 'Company'}: DARS Transtrade Pvt. Ltd.',
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: const Column(
-                  children: [
-                    Text(
-                      'e-Disha',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      'Version 1.0.0',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      '© DARS Transtrade Pvt. Ltd.',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ]),
             ],
           ),
         ),
@@ -618,7 +636,7 @@ class _AppSettingsDialogState extends State<AppSettingsDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(l10n?.cancel ?? 'Cancel'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -700,6 +718,121 @@ class _AppSettingsDialogState extends State<AppSettingsDialog> {
           activeColor: Colors.purple,
         ),
       ],
+    );
+  }
+
+  Widget _buildLanguageSetting(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    
+    return Consumer<LanguageProvider>(
+      builder: (context, languageProvider, child) {
+        return ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+          title: Text(l10n?.language ?? 'Language', style: const TextStyle(fontSize: 14)),
+          subtitle: Text(
+            languageProvider.currentLanguageDisplayName,
+            style: const TextStyle(fontSize: 12),
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          onTap: () => _showLanguageDialog(context),
+        );
+      },
+    );
+  }
+
+  Widget _buildDarkModeSetting(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+          title: Text(l10n?.darkMode ?? 'Dark Mode', style: const TextStyle(fontSize: 14)),
+          subtitle: Text(
+            themeProvider.isDarkMode ? 'Enabled' : 'Disabled',
+            style: const TextStyle(fontSize: 12),
+          ),
+          trailing: Switch(
+            value: themeProvider.isDarkMode,
+            onChanged: (value) => themeProvider.toggleTheme(),
+            activeColor: Colors.purple,
+          ),
+        );
+      },
+    );
+  }
+
+  void _showLanguageDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
+    
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Row(
+            children: [
+              Icon(Icons.language, color: Colors.purple),
+              const SizedBox(width: 12),
+              Text(l10n?.selectLanguage ?? 'Select Language'),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Text('🇺🇸', style: TextStyle(fontSize: 28)),
+                      title: Text(
+                        l10n?.english ?? 'English',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      trailing: languageProvider.isEnglish 
+                          ? const Icon(Icons.check_circle, color: Colors.green, size: 24) 
+                          : const Icon(Icons.radio_button_unchecked, color: Colors.grey),
+                      onTap: () {
+                        languageProvider.changeLanguage('en');
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    Divider(height: 1, color: Colors.grey.shade300),
+                    ListTile(
+                      leading: const Text('🇮🇳', style: TextStyle(fontSize: 28)),
+                      title: Text(
+                        l10n?.hindi ?? 'हिंदी',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      trailing: languageProvider.isHindi 
+                          ? const Icon(Icons.check_circle, color: Colors.green, size: 24) 
+                          : const Icon(Icons.radio_button_unchecked, color: Colors.grey),
+                      onTap: () {
+                        languageProvider.changeLanguage('hi');
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                l10n?.cancel ?? 'Cancel',
+                style: const TextStyle(color: Colors.purple),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

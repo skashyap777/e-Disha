@@ -3,9 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:edisha/generated/app_localizations.dart';
 
 import 'package:edisha/providers/theme_provider.dart';
 import 'package:edisha/providers/dashboard_provider.dart';
+import 'package:edisha/providers/language_provider.dart';
 import 'package:edisha/services/settings_service.dart';
 import 'package:edisha/theme/theme.dart';
 import 'package:edisha/screens/splash_screen.dart';
@@ -24,13 +27,36 @@ import 'package:edisha/screens/route_fixing_screen.dart';
 import 'package:edisha/screens/vehicle_history_screen.dart';
 import 'package:edisha/screens/route_history_screen.dart';
 import 'package:edisha/screens/route_map_view_screen.dart';
+import 'package:edisha/screens/history_selection_screen.dart';
 import 'package:edisha/services/device_service.dart';
 import 'package:edisha/services/route_service.dart';
 import 'package:edisha/core/service_locator.dart';
 import 'package:edisha/services/fcm_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:edisha/services/auth_api_service.dart';
+
+Future<void> _clearAuthStateIfFirstLaunch() async {
+  final prefs = await SharedPreferences.getInstance();
+  const String firstLaunchKey = 'first_launch';
+  bool isFirstLaunch = prefs.getBool(firstLaunchKey) ?? true;
+
+  if (isFirstLaunch) {
+    // Clear all authentication data
+    final authService = AuthApiService();
+    await authService.clearTokens();
+    
+    // Mark that we've done this so it doesn't run again
+    await prefs.setBool(firstLaunchKey, false);
+    print('🔑 Cleared auth state on first launch');
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Clear auth state on first launch after installation
+  await _clearAuthStateIfFirstLaunch();
+  
   await dotenv.load(fileName: '.env');
   
   // Initialize Firebase
@@ -50,6 +76,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => DashboardProvider()),
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
       ],
       child: const MyApp(),
     ),
@@ -62,6 +89,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final languageProvider = Provider.of<LanguageProvider>(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -69,6 +97,16 @@ class MyApp extends StatelessWidget {
       themeMode: themeProvider.themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      
+      // Localization configuration
+      locale: languageProvider.currentLocale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: LanguageProvider.supportedLocales,
       routes: {
         '/login': (context) => const LoginScreen(),
         '/dashboard': (context) => const DashboardScreen(),
@@ -77,6 +115,7 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => const SplashScreen(),
         // '/live-tracking' route removed from here - now handled in onGenerateRoute
         '/history': (context) => const VehicleHistoryScreen(),
+        '/history-playback': (context) => const HistorySelectionScreen(),
         '/vehicle-details': (context) =>
             const PlaceholderScreen(title: 'Vehicle Details'),
         '/add-driver': (context) => const DriverManagementScreen(),

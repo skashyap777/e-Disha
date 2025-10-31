@@ -5,6 +5,7 @@ import 'package:edisha/services/alert_api_service.dart';
 import 'package:edisha/services/driver_api_service.dart';
 import 'package:edisha/services/behavioral_events_service.dart';
 import 'package:edisha/core/service_locator.dart';
+import 'package:edisha/generated/app_localizations.dart';
 
 /// Responsive Vehicle Status Cards that adapt to screen size
 class ResponsiveVehicleStatusCard extends StatefulWidget {
@@ -193,10 +194,10 @@ class _ResponsiveVehicleStatusCardState extends State<ResponsiveVehicleStatusCar
           ),
         ),
         const SizedBox(width: 16),
-        const Expanded(
+        Expanded(
           child: Text(
-            'Vehicle Status',
-            style: TextStyle(
+            AppLocalizations.of(context)?.vehicleStatus ?? 'Vehicle Status',
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -302,7 +303,7 @@ class _ResponsiveVehicleStatusCardState extends State<ResponsiveVehicleStatusCar
                     color: Colors.blue,
                   ),
                 ),
-                const Text('Total Vehicles', style: TextStyle(fontSize: 12)),
+                Text(AppLocalizations.of(context)?.totalVehicles ?? 'Total Vehicles', style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),
@@ -317,7 +318,7 @@ class _ResponsiveVehicleStatusCardState extends State<ResponsiveVehicleStatusCar
                     color: Colors.green,
                   ),
                 ),
-                const Text('Active', style: TextStyle(fontSize: 12)),
+                Text(AppLocalizations.of(context)?.active ?? 'Active', style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),
@@ -332,7 +333,7 @@ class _ResponsiveVehicleStatusCardState extends State<ResponsiveVehicleStatusCar
                     color: Colors.red,
                   ),
                 ),
-                const Text('Offline', style: TextStyle(fontSize: 12)),
+                Text(AppLocalizations.of(context)?.offline ?? 'Offline', style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),
@@ -344,14 +345,14 @@ class _ResponsiveVehicleStatusCardState extends State<ResponsiveVehicleStatusCar
   List<Widget> _buildStatusCards() {
     final statusItems = [
       {
-        'title': 'Moving',
+        'title': AppLocalizations.of(context)?.moving ?? 'Moving',
         'count': _vehicleData!['moving'],
         'icon': Icons.directions_car,
         'color': Colors.green,
         'onTap': () => _showMovingVehiclesDialog(),
       },
       {
-        'title': 'Idle',
+        'title': AppLocalizations.of(context)?.idle ?? 'Idle',
         'count': _vehicleData!['idle'],
         'icon': Icons.pause_circle_outline,
         'color': Colors.orange,
@@ -783,10 +784,10 @@ class _ResponsiveAlertOverviewCardState extends State<ResponsiveAlertOverviewCar
           ),
         ),
         const SizedBox(width: 16),
-        const Expanded(
+        Expanded(
           child: Text(
-            'Alert Overview',
-            style: TextStyle(
+            AppLocalizations.of(context)?.alertOverview ?? 'Alert Overview',
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -844,10 +845,10 @@ class _ResponsiveAlertOverviewCardState extends State<ResponsiveAlertOverviewCar
           mainAxisSpacing: 12,
           childAspectRatio: 1.3,
           children: [
-            _buildMetricCard('Critical', _alertData!['critical'], Colors.red, Icons.error, 'critical'),
-            _buildMetricCard('Warning', _alertData!['warning'], Colors.orange, Icons.warning, 'warning'),
-            _buildMetricCard('Today', _alertData!['today'], Colors.blue, Icons.today, 'today'),
-            _buildMetricCard('Total', _alertData!['total'], Colors.grey, Icons.notifications, 'total'),
+            _buildMetricCard(AppLocalizations.of(context)?.critical ?? 'Critical', _alertData!['critical'], Colors.red, Icons.error, 'critical'),
+            _buildMetricCard(AppLocalizations.of(context)?.warning ?? 'Warning', _alertData!['warning'], Colors.orange, Icons.warning, 'warning'),
+            _buildMetricCard(AppLocalizations.of(context)?.today ?? 'Today', _alertData!['today'], Colors.blue, Icons.today, 'today'),
+            _buildMetricCard(AppLocalizations.of(context)?.total ?? 'Total', _alertData!['total'], Colors.grey, Icons.notifications, 'total'),
           ],
         ),
       ],
@@ -1198,10 +1199,10 @@ class _ResponsiveDriverBehaviourCardState extends State<ResponsiveDriverBehaviou
           ),
         ),
         const SizedBox(width: 16),
-        const Expanded(
+        Expanded(
           child: Text(
-            'Driver Behaviour',
-            style: TextStyle(
+            AppLocalizations.of(context)?.driverBehaviour ?? 'Driver Behaviour',
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -1278,7 +1279,7 @@ class _ResponsiveDriverBehaviourCardState extends State<ResponsiveDriverBehaviou
                     color: Colors.green,
                   ),
                 ),
-                const Text('Total Drivers', style: TextStyle(fontSize: 12)),
+                Text(AppLocalizations.of(context)?.totalDrivers ?? 'Total Drivers', style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),
@@ -1293,7 +1294,7 @@ class _ResponsiveDriverBehaviourCardState extends State<ResponsiveDriverBehaviou
                     color: Colors.blue,
                   ),
                 ),
-                const Text('Active', style: TextStyle(fontSize: 12)),
+                Text(AppLocalizations.of(context)?.active ?? 'Active', style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),
@@ -1308,7 +1309,7 @@ class _ResponsiveDriverBehaviourCardState extends State<ResponsiveDriverBehaviou
                     color: Colors.orange,
                   ),
                 ),
-                const Text('On Duty', style: TextStyle(fontSize: 12)),
+                Text(AppLocalizations.of(context)?.onDuty ?? 'On Duty', style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),
@@ -1327,21 +1328,21 @@ class _ResponsiveDriverBehaviourCardState extends State<ResponsiveDriverBehaviou
       childAspectRatio: 1.1,
       children: [
         _buildBehaviourCard(
-          'Harsh Braking',
+          AppLocalizations.of(context)?.harshBraking ?? 'Harsh Braking',
           _behavioralData?.harshBrakingCount ?? 4,
           Colors.red,
           Icons.pan_tool,
           'harsh_braking',
         ),
         _buildBehaviourCard(
-          'Overspeeding',
+          AppLocalizations.of(context)?.overspeeding ?? 'Overspeeding',
           _behavioralData?.overspeedingCount ?? 2,
           Colors.orange,
           Icons.speed,
           'overspeeding',
         ),
         _buildBehaviourCard(
-          'Sudden Turn',
+          AppLocalizations.of(context)?.suddenTurn ?? 'Sudden Turn',
           _behavioralData?.suddenTurnCount ?? 3,
           Colors.purple,
           Icons.turn_right,

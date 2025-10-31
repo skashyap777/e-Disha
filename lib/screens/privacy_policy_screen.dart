@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:edisha/generated/app_localizations.dart';
 
 /// Privacy Policy screen displaying data collection and usage policies
 class PrivacyPolicyScreen extends StatefulWidget {
@@ -63,9 +64,9 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
         elevation: 0,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
-        title: const Text(
-          'Privacy Policy',
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context)?.privacyPolicyTitle ?? 'Privacy Policy',
+          style: const TextStyle(
             color: Color(0xFF1A2A44),
             fontWeight: FontWeight.bold,
           ),
@@ -141,10 +142,10 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
                             ),
                           ),
                           const SizedBox(width: 16),
-                          const Expanded(
+                          Expanded(
                             child: Text(
-                              'Privacy Policy',
-                              style: TextStyle(
+                              AppLocalizations.of(context)?.privacyPolicyTitle ?? 'Privacy Policy',
+                              style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -155,7 +156,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Last updated: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+                        '${AppLocalizations.of(context)?.lastUpdated ?? 'Last updated'}: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white.withOpacity(0.9),
@@ -163,9 +164,9 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        'Your privacy is important to us. This policy explains how we collect, use, and protect your information.',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)?.privacyCommitment ?? 'We are committed to protecting your privacy and ensuring the security of your personal information while providing the best possible service.',
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                           height: 1.5,
@@ -205,32 +206,32 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSection(
-            '1. Information We Collect',
-            'We collect several types of information from and about users of our App:\n\n• Personal Information: Name, phone number, email address\n• Vehicle Information: Vehicle details, registration number, device ID\n• Location Data: GPS coordinates, routes, speed, and movement patterns\n• Usage Data: App interactions, features used, session duration\n• Device Information: Device type, operating system, unique identifiers',
+            AppLocalizations.of(context)?.informationWeCollectTitle ?? '1. Information We Collect',
+            AppLocalizations.of(context)?.informationWeCollectContent ?? 'We collect several types of information from and about users of our App:\n\n• Personal Information: Name, phone number, email address\n• Vehicle Information: Vehicle details, registration number, device ID\n• Location Data: GPS coordinates, routes, speed, and movement patterns\n• Usage Data: App interactions, features used, session duration\n• Device Information: Device type, operating system, unique identifiers',
           ),
           _buildSection(
-            '2. How We Use Your Information',
-            'We use the information we collect for various purposes:\n\n• Provide and maintain our GPS tracking services\n• Process transactions and send related information\n• Send technical notices, updates, and support messages\n• Respond to your comments, questions, and requests\n• Monitor and analyze trends, usage, and activities\n• Improve our services and develop new features\n• Ensure security and prevent fraud',
+            AppLocalizations.of(context)?.howWeUseInfoTitle ?? '2. How We Use Your Information',
+            AppLocalizations.of(context)?.howWeUseInfoContent ?? 'We use the information we collect for various purposes:\n\n• Provide and maintain our GPS tracking services\n• Process transactions and send related information\n• Send technical notices, updates, and support messages\n• Respond to your comments, questions, and requests\n• Monitor and analyze trends, usage, and activities\n• Improve our services and develop new features\n• Ensure security and prevent fraud',
           ),
           _buildSection(
-            '3. Location Data',
-            'Our App collects precise location data to provide tracking services:\n\n• Real-time GPS coordinates of your vehicles\n• Historical location and route data\n• Geofencing and alert information\n• Speed and movement analytics\n\nLocation data is essential for our core services and is collected only when the app is in use or running in the background with your permission.',
+            AppLocalizations.of(context)?.informationSharingTitle ?? '3. Information Sharing',
+            AppLocalizations.of(context)?.informationSharingContent ?? 'We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy:\n\n• Service Providers: We may share information with trusted third parties who assist us in operating our app\n• Legal Requirements: We may disclose information when required by law or to protect our rights\n• Business Transfers: Information may be transferred in connection with a merger or acquisition',
           ),
           _buildSection(
-            '4. Data Sharing and Disclosure',
-            'We do not sell, trade, or otherwise transfer your personal information to third parties except:\n\n• With your explicit consent\n• To comply with legal obligations\n• To protect our rights and prevent fraud\n• With service providers who assist our operations\n• In case of business transfer or merger\n\nAll third-party service providers are contractually bound to protect your information.',
+            AppLocalizations.of(context)?.dataSecurityTitle ?? '4. Data Security',
+            AppLocalizations.of(context)?.dataSecurityContent ?? 'We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction:\n\n• Encryption of sensitive data during transmission\n• Regular security assessments and updates\n• Limited access to personal information\n• Secure data storage practices',
           ),
           _buildSection(
-            '5. Data Security',
-            'We implement appropriate security measures to protect your information:\n\n• Encryption of data in transit and at rest\n• Secure server infrastructure with access controls\n• Regular security audits and monitoring\n• Employee training on data protection\n• Multi-factor authentication for admin access\n\nHowever, no method of transmission over the Internet is 100% secure.',
+            AppLocalizations.of(context)?.locationDataTitle ?? '5. Location Data',
+            AppLocalizations.of(context)?.locationDataContent ?? 'Our app collects and uses location data to provide GPS tracking services:\n\n• Real-time location tracking for fleet management\n• Route optimization and navigation assistance\n• Geofencing and alert notifications\n• Historical route and location analysis\n\nYou can disable location services through your device settings, but this may limit app functionality.',
           ),
           _buildSection(
-            '6. Data Retention',
-            'We retain your personal information for as long as necessary to:\n\n• Provide our services to you\n• Comply with legal obligations\n• Resolve disputes and enforce agreements\n• Meet regulatory requirements\n\nLocation data is typically retained for up to 2 years unless longer retention is required by law.',
+            AppLocalizations.of(context)?.dataRetentionTitle ?? '6. Data Retention',
+            AppLocalizations.of(context)?.dataRetentionContent ?? 'We retain your personal information for as long as necessary to provide our services and comply with legal obligations:\n\n• Account information: Retained while your account is active\n• Location data: Stored for up to 2 years for historical analysis\n• Usage data: Retained for up to 1 year for service improvement\n• Legal compliance: Some data may be retained longer as required by law',
           ),
           _buildSection(
-            '7. Your Privacy Rights',
-            'You have the following rights regarding your personal information:\n\n• Access: Request copies of your personal data\n• Correction: Request correction of inaccurate information\n• Deletion: Request deletion of your personal data\n• Portability: Request transfer of your data\n• Restriction: Request limitation of processing\n• Objection: Object to processing of your data',
+            AppLocalizations.of(context)?.yourRightsTitle ?? '7. Your Rights',
+            AppLocalizations.of(context)?.yourRightsContent ?? 'You have certain rights regarding your personal information:\n\n• Access: Request access to your personal data\n• Correction: Request correction of inaccurate information\n• Deletion: Request deletion of your personal data\n• Portability: Request transfer of your data to another service\n• Objection: Object to certain processing of your data\n\nTo exercise these rights, please contact us using the information provided below.',
           ),
           _buildSection(
             '8. Cookies and Tracking Technologies',
@@ -273,9 +274,9 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
                   size: 32,
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Your Privacy Matters',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)?.yourPrivacyMatters ?? 'Your Privacy Matters',
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF1A2A44),
@@ -283,7 +284,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'We are committed to protecting your privacy and ensuring the security of your personal information while providing the best possible service.',
+                  AppLocalizations.of(context)?.privacyCommitment ?? 'We are committed to protecting your privacy and ensuring the security of your personal information while providing the best possible service.',
                   style: TextStyle(
                     fontSize: 14,
                     color: const Color(0xFF1A2A44).withOpacity(0.7),

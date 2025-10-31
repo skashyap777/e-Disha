@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math' as math;
+import 'package:provider/provider.dart';
+import 'package:edisha/generated/app_localizations.dart';
 import 'package:edisha/screens/otp_verification_screen.dart';
 import 'package:edisha/screens/terms_conditions_screen.dart';
 import 'package:edisha/screens/privacy_policy_screen.dart';
@@ -10,6 +12,7 @@ import 'package:edisha/utils/error_handler.dart';
 import 'package:edisha/components/app_button.dart';
 import 'package:edisha/components/app_input.dart';
 import 'package:edisha/widgets/network_status_indicator.dart';
+import 'package:edisha/providers/language_provider.dart';
 
 /// Login screen for user authentication.
 ///
@@ -94,37 +97,40 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   }
 
   String? _validateMobile(String? value) {
+    final l10n = AppLocalizations.of(context)!;
     if (value == null || value.isEmpty) {
-      return 'Please enter your mobile number';
+      return l10n.pleaseEnterMobileNumber;
     }
     if (value.length != 10) {
-      return 'Mobile number must be 10 digits';
+      return l10n.mobileNumberMustBe10Digits;
     }
     if (!RegExp(r'^[6-9][0-9]{9}$').hasMatch(value)) {
-      return 'Please enter a valid Indian mobile number';
+      return l10n.pleaseEnterValidIndianMobileNumber;
     }
     return null;
   }
 
   String? _validateMobileAny(String? value) {
+    final l10n = AppLocalizations.of(context);
     if (value == null || value.isEmpty) {
-      return 'Please enter your mobile number';
+      return l10n?.pleaseEnterMobileNumber ?? 'Please enter your mobile number';
     }
     if (value.length < 10) {
-      return 'Mobile number must be at least 10 digits';
+      return l10n?.mobileNumberMustBeAtLeast10Digits ?? 'Mobile number must be at least 10 digits';
     }
     if (value.length > 15) {
-      return 'Mobile number must be at most 15 digits';
+      return l10n?.mobileNumberMustBeAtMost15Digits ?? 'Mobile number must be at most 15 digits';
     }
     return null;
   }
 
   String? _validatePassword(String? value) {
+    final l10n = AppLocalizations.of(context);
     if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+      return l10n?.pleaseEnterPassword ?? 'Please enter your password';
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return l10n?.passwordMustBeAtLeast6Characters ?? 'Password must be at least 6 characters';
     }
     return null;
   }
@@ -248,6 +254,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    
     return NetworkStatusIndicator(
       child: Scaffold(
         backgroundColor: const Color(0xFF006D77), // Deep teal base
@@ -281,6 +289,71 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  // Language switcher at the top of header
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Consumer<LanguageProvider>(
+                                          builder: (context, languageProvider, child) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                print('🌐 Header language switcher tapped!');
+                                                _showLanguageDialog(context);
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(right: 20),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  border: Border.all(
+                                                    color: const Color(0xFF3B82F6),
+                                                    width: 2,
+                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black.withOpacity(0.1),
+                                                      blurRadius: 6,
+                                                      offset: const Offset(0, 2),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.language,
+                                                        color: const Color(0xFF3B82F6),
+                                                        size: 18,
+                                                      ),
+                                                      const SizedBox(width: 6),
+                                                      Text(
+                                                        languageProvider.currentLanguageDisplayName,
+                                                        style: const TextStyle(
+                                                          color: Color(0xFF1A2A44),
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 4),
+                                                      Icon(
+                                                        Icons.keyboard_arrow_down,
+                                                        color: const Color(0xFF3B82F6),
+                                                        size: 16,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   // Golden Logo Container
                                   ScaleTransition(
                                     scale: _scaleAnimation,
@@ -328,7 +401,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   const SizedBox(height: 24),
                                   // Welcome Text
                                   Text(
-                                    'Welcome to e-Disha',
+                                    l10n?.welcomeBack ?? 'Welcome Back!',
                                     style: TextStyle(
                                       fontSize: 28,
                                       fontWeight: FontWeight.bold,
@@ -344,7 +417,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    'Digital India Initiative',
+                                    l10n?.signInToContinue ?? 'Sign in to continue to e-Disha',
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.white.withOpacity(0.9),
@@ -383,9 +456,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // Title
-                                    const Text(
-                                      'Login',
-                                      style: TextStyle(
+                                    Text(
+                                      l10n?.login ?? 'Login',
+                                      style: const TextStyle(
                                         fontSize: 32,
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xFF1A2A44),
@@ -393,7 +466,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      'Enter your mobile number and password to continue',
+                                      l10n?.signInToContinue ?? 'Sign in to continue to e-Disha',
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: const Color(0xFF1A2A44).withOpacity(0.7),
@@ -405,8 +478,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                     AppInput(
                                       controller: _mobileController,
                                       focusNode: _mobileFocusNode,
-                                      label: 'Mobile Number',
-                                      hintText: 'Enter 10-digit number',
+                                      label: l10n?.mobileNumber ?? 'Mobile Number',
+                                      hintText: l10n?.enterMobileNumber ?? 'Enter your mobile number',
                                       keyboardType: TextInputType.phone,
                                       prefixIcon: const Icon(Icons.phone_android),
                                       maxLength: 15, // Allow longer numbers
@@ -425,8 +498,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                     AppInput(
                                       controller: _passwordController,
                                       focusNode: _passwordFocusNode,
-                                      label: 'Password',
-                                      hintText: 'Enter your password',
+                                      label: l10n?.password ?? 'Password',
+                                      hintText: l10n?.enterPassword ?? 'Enter your password',
                                       obscureText: _obscurePassword,
                                       prefixIcon: const Icon(Icons.lock_outline),
                                       suffixIcon: IconButton(
@@ -451,13 +524,13 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                     // Continue Button
                                     AppButton(
                                       onPressed: _isLoading ? null : _handleLogin,
-                                      text: 'Continue',
+                                      text: l10n?.login ?? 'Login',
                                       icon: Icons.arrow_forward,
                                       iconPosition: IconPosition.right,
                                       isLoading: _isLoading,
                                       size: AppButtonSize.fullWidth,
                                       height: 56,
-                                      semanticLabel: 'Continue with login',
+                                      semanticLabel: l10n?.login ?? 'Login',
                                       tooltip: 'Proceed to OTP verification',
                                     ),
 
@@ -468,7 +541,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                       child: Column(
                                         children: [
                                           Text(
-                                            'By continuing, you agree to our',
+                                            l10n?.byContinuingYouAgree ?? 'By continuing, you agree to our',
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: const Color(0xFF1A2A44).withOpacity(0.6),
@@ -487,9 +560,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                                     ),
                                                   );
                                                 },
-                                                child: const Text(
-                                                  'Terms of Service',
-                                                  style: TextStyle(
+                                                child: Text(
+                                                  l10n?.termsAndConditions ?? 'Terms & Conditions',
+                                                  style: const TextStyle(
                                                     fontSize: 12,
                                                     color: Color(0xFF00CED1),
                                                     fontWeight: FontWeight.w600,
@@ -497,7 +570,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                                 ),
                                               ),
                                               Text(
-                                                ' and ',
+                                                ' ${l10n?.and ?? 'and'} ',
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                   color: const Color(0xFF1A2A44).withOpacity(0.6),
@@ -512,9 +585,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                                     ),
                                                   );
                                                 },
-                                                child: const Text(
-                                                  'Privacy Policy',
-                                                  style: TextStyle(
+                                                child: Text(
+                                                  l10n?.privacyPolicy ?? 'Privacy Policy',
+                                                  style: const TextStyle(
                                                     fontSize: 12,
                                                     color: Color(0xFF00CED1),
                                                     fontWeight: FontWeight.w600,
@@ -538,10 +611,89 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                   ),
                 ),
               ),
+
             ],
           ),
         ),
       ),
+    );
+  }
+
+
+
+  // Show language selection dialog
+  void _showLanguageDialog(BuildContext context) {
+    print('🌐 Showing language dialog...'); // Debug log
+    final l10n = AppLocalizations.of(context);
+    final languageProvider = Provider.of<LanguageProvider>(context, listen: false);
+    
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Row(
+            children: [
+              Icon(Icons.language, color: const Color(0xFF3B82F6)),
+              const SizedBox(width: 12),
+              Text(l10n?.selectLanguage ?? 'Select Language'),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Text('🇺🇸', style: TextStyle(fontSize: 28)),
+                      title: Text(
+                        l10n?.english ?? 'English',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      trailing: languageProvider.isEnglish 
+                          ? const Icon(Icons.check_circle, color: Colors.green, size: 24) 
+                          : const Icon(Icons.radio_button_unchecked, color: Colors.grey),
+                      onTap: () {
+                        languageProvider.changeLanguage('en');
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    Divider(height: 1, color: Colors.grey.shade300),
+                    ListTile(
+                      leading: const Text('🇮🇳', style: TextStyle(fontSize: 28)),
+                      title: Text(
+                        l10n?.hindi ?? 'हिंदी',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      trailing: languageProvider.isHindi 
+                          ? const Icon(Icons.check_circle, color: Colors.green, size: 24) 
+                          : const Icon(Icons.radio_button_unchecked, color: Colors.grey),
+                      onTap: () {
+                        languageProvider.changeLanguage('hi');
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                l10n?.cancel ?? 'Cancel',
+                style: const TextStyle(color: Color(0xFF3B82F6)),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

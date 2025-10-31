@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../generated/app_localizations.dart';
 import 'package:edisha/services/route_service.dart';
 import 'package:edisha/services/gps_tracking_service.dart';
 import 'package:edisha/services/device_service.dart';
@@ -101,7 +102,7 @@ class _RouteFixingScreenState extends State<RouteFixingScreen>
           icon: _getMarkerIcon(i),
           infoWindow: InfoWindow(
             title: _getMarkerTitle(i),
-            snippet: 'Tap to remove',
+            snippet: AppLocalizations.of(context)?.tapToRemove ?? 'Tap to remove',
           ),
         ),
       );
@@ -124,9 +125,9 @@ class _RouteFixingScreenState extends State<RouteFixingScreen>
   }
 
   String _getMarkerTitle(int index) {
-    if (index == 0) return 'Start Point';
-    if (index == _routePoints.length - 1) return 'End Point';
-    return 'Waypoint ${index}';
+    if (index == 0) return AppLocalizations.of(context)?.startPoint ?? 'Start Point';
+    if (index == _routePoints.length - 1) return AppLocalizations.of(context)?.endPoint ?? 'End Point';
+    return AppLocalizations.of(context)?.waypoint.replaceAll('{number}', index.toString()) ?? 'Waypoint $index';
   }
 
   Future<void> _loadAvailableDevices() async {
@@ -283,7 +284,7 @@ class _RouteFixingScreenState extends State<RouteFixingScreen>
   Future<void> _saveRoute() async {
     if (_routePoints.isEmpty || _selectedDeviceId == null) {
       _showSnackbar(
-        'Please add route points and select a vehicle',
+        AppLocalizations.of(context)?.addRoutePoints ?? 'Please add route points and select a vehicle',
         Colors.orange,
       );
       return;
@@ -485,8 +486,8 @@ class _RouteFixingScreenState extends State<RouteFixingScreen>
                   children: [
                     Text(
                       widget.existingRoute != null
-                          ? 'Edit Route'
-                          : 'Create New Route',
+                          ? (AppLocalizations.of(context)?.editRoute ?? 'Edit Route')
+                          : (AppLocalizations.of(context)?.createNewRoute ?? 'Create New Route'),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
